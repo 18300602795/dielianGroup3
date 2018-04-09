@@ -1,0 +1,42 @@
+<resources>
+    <string name="test_game_name">大话西游</string>
+    <string name="test_game_size">213M</string>
+    <string name="test_game_status">12.12日开服</string>
+    <string name="test_game_type1">角色</string>
+    <string name="test_game_type2">3D</string>
+    <string name="test_game_type3">可爱</string>
+    <string name="test_game_type4">竞技</string>
+    <string name="test_game_type5">萌萌</string>
+    <string name="default_login_hint">登录/注册</string>
+    <string name="update_phone_show">当前已绑定手机账户：%s</string>
+    <string name="update_email_show">当前已绑定邮箱：%s</string>
+    <string name="test_large_text">游戏介绍游戏介绍游游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游
+        戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍游戏介绍</string>
+    <string name="smart_install_accessibility_service_description">辅助功能安装服务</string>
+    <string name="pay_desc">注：充值成功以后，可到我的游戏中查询游戏币余额。
+        \n网上银行充值说明：
+        \n1、您必须开通了网上银行业务；
+        \n2、充值最多不能超过10000元。
+        \n3、如果您用信用卡支付，请确认该信用卡的网上交易限额大于等于您的充值金额；
+        \n4、充值的游戏币只限于该款游戏内使用。
+        \n5、充值时务必确认好您的充值金额及充值游戏，准确无误后再进行充值，避免输错金额或游戏选择错误导致的失误，如因未仔细确认金额造成的充值问题或充错游戏，我们将不予处理此类退款申诉。
+    </string>
+    <string name="notice_desc">
+        公会建设靠大家，我们做好四件事：
+        \n1、拉人，多分享公会名片到游戏Q群贴吧，扩大队伍
+        \n2、放端，会长的公会端一上架，大家分享游戏页面到Q群贴吧。安装app的玩家会自动更新提醒
+        \n3、带人，多组织活动，一键召集，活动闹钟会通知到所有玩家
+        \n4、福利，有礼包福利利用会长后台上架，游戏群里可以领这个是管理公会app，要管理找小袁
+    </string>
+    <string-array name="game_feedback">
+        <item>色情内容</item>
+        <item>携带病毒</item>
+        <item>恶意扣费</item>
+        <item>含不良插件</item>
+        <item>启动不了</item>
+        <item>其他</item>
+    </string-array>
+
+    <string name="emojicon_test_name">示例</string>
+    <string name="at_your_in_group">%s在群聊中@了你</string>
+</resources>

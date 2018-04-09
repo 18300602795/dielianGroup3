@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/game_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bg"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/common_margin"
+            android:paddingRight="@dimen/common_margin">
+
+            <com.liang530.views.imageview.roundedimageview.RoundedImageView
+                android:id="@+id/iv_game_img"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:src="@mipmap/ic_launcher"
+                app:riv_corner_radius="16dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_game_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="@string/test_game_name"
+                    android:textColor="@color/text_main_black"
+                    android:textSize="@dimen/text_normal" />
+
+                <TextView
+                    android:id="@+id/tv_oneword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:singleLine="true"
+                    android:text="大话西游重温金典"
+                    android:textColor="@color/text_lowgray"
+                    android:textSize="10sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="在玩成员："
+                        android:textColor="@color/text_lowgray"
+                        android:textSize="10sp" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:id="@+id/num_ll"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal" />
+                    </HorizontalScrollView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_att"
+                    android:layout_width="55dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/attention_bg"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="关注"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/text_hint" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            style="@style/line_color"
+            android:layout_alignParentTop="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.etsdk.app.huov7.view.DrawableTextView
+                android:id="@+id/down_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/game_download"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:text="下载" />
+
+            <View
+                android:layout_width="0.1dp"
+                android:layout_height="20dp"
+                android:background="@color/line_gray" />
+
+            <com.etsdk.app.huov7.view.DrawableTextView
+                android:id="@+id/gift_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/group_gift"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:text="礼包" />
+
+            <View
+                android:layout_width="0.1dp"
+                android:layout_height="20dp"
+                android:background="@color/line_gray" />
+
+            <com.etsdk.app.huov7.view.DrawableTextView
+                android:id="@+id/share_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/share_new"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:text="招募" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/aile_line_gray" />
+    </LinearLayout>
+</RelativeLayout>
