@@ -14,6 +14,10 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.AdImage;
+import com.etsdk.app.huov7.ui.CouponDetailActivity;
+import com.etsdk.app.huov7.ui.GameDetailV2Activity;
+import com.etsdk.app.huov7.ui.GiftDetailActivity;
+import com.etsdk.app.huov7.ui.WebViewActivity;
 
 import java.util.List;
 
@@ -53,7 +57,21 @@ public class ViewPagerAdapter extends PagerAdapter {
 //                StringUtils.dip2px(container.getContext(), 300), StringUtils.dip2px(container.getContext(), 160));
 //        img.setLayoutParams(layoutParams);
 //        img.setScaleType(ImageView.ScaleType.FIT_XY);
-        AdImage listBean = listbean.get(position % listbean.size());
+        final AdImage listBean = listbean.get(position % listbean.size());
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ("1".equals(listBean.getType())) {
+                    WebViewActivity.start(v.getContext(), "", listBean.getUrl());
+                } else if ("2".equals(listBean.getType())) {
+                    GameDetailV2Activity.start(v.getContext(), listBean.getTarget() + "");
+                } else if ("3".equals(listBean.getType())) {
+                    GiftDetailActivity.start(v.getContext(), listBean.getTarget() + "");
+                } else if ("4".equals(listBean.getType())) {
+                    CouponDetailActivity.start(v.getContext(), listBean.getTarget() + "");
+                }
+            }
+        });
         Glide.with(context).load(listBean.getImage()).placeholder(R.mipmap.gg).into(img);
         container.addView(view);
         return view;
