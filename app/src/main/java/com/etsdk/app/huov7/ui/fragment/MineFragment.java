@@ -9,6 +9,7 @@ import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.adapter.MineAdapter;
 import com.etsdk.app.huov7.base.AileApplication;
 import com.etsdk.app.huov7.base.AutoLazyFragment;
+import com.etsdk.app.huov7.chat.cache.UserCacheManager;
 import com.etsdk.app.huov7.http.AppApi;
 import com.etsdk.app.huov7.model.UserInfoResultBean;
 import com.etsdk.app.huov7.util.StringUtils;
@@ -57,6 +58,7 @@ public class MineFragment extends AutoLazyFragment {
             @Override
             public void onDataSuccess(UserInfoResultBean data) {
                 if (adapter != null) {
+                    UserCacheManager.save(data.getUsername(), data.getNickname(), data.getPortrait());
                     adapter.setData(data);
                     if (!StringUtils.isEmpty(data.getReg()) && data.getReg().equals("1"))
                         login(data.getUsername(), "123456");

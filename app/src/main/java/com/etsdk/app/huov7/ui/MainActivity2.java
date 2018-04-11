@@ -23,7 +23,7 @@ import com.etsdk.app.huov7.http.AppApi;
 import com.etsdk.app.huov7.model.StartupResultBean;
 import com.etsdk.app.huov7.model.UserInfoResultBean;
 import com.etsdk.app.huov7.ui.fragment.ChatFragment;
-import com.etsdk.app.huov7.ui.fragment.HomeFragment;
+import com.etsdk.app.huov7.ui.fragment.HomeFragment2;
 import com.etsdk.app.huov7.ui.fragment.HouseFragment;
 import com.etsdk.app.huov7.ui.fragment.MineFragment;
 import com.etsdk.app.huov7.ui.fragment.NewsListFragment;
@@ -216,7 +216,7 @@ public class MainActivity2 extends ImmerseActivity {
         textViews.add(chat_tv);
         textViews.add(event_tv);
         textViews.add(mine_tv);
-        fragmentList.add(new HomeFragment());
+        fragmentList.add(new HomeFragment2());
         fragmentList.add(new HouseFragment());
         fragmentList.add(new ChatFragment());
         fragmentList.add(NewsListFragment.newInstance("2", null));

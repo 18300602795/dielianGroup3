@@ -23,7 +23,6 @@ import com.etsdk.app.huov7.BuildConfig;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.base.AileApplication;
 import com.etsdk.app.huov7.base.ImmerseActivity;
-import com.etsdk.app.huov7.chat.cache.UserCacheManager;
 import com.etsdk.app.huov7.http.AppApi;
 import com.etsdk.app.huov7.model.LoginRequestBean;
 import com.etsdk.app.huov7.model.LoginResultBean;
@@ -178,7 +177,6 @@ public class LoginActivityV1 extends ImmerseActivity implements PlatformActionLi
                         return;
                     }
                     LoginControl.saveToken(data.getUser_token());
-                    UserCacheManager.save(account, data.getNickname(), data.getPortrait());
                     login(account, "123456");
 //                    T.s(mActivity, "登陆成功");
                     //接口回调通知
