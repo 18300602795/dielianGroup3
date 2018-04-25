@@ -11,14 +11,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.etsdk.app.huov7.R;
+import com.etsdk.app.huov7.adapter.MemberListItemViewAdapter;
 import com.etsdk.app.huov7.base.ImmerseActivity;
 import com.etsdk.app.huov7.http.AppApi;
+import com.etsdk.app.huov7.model.MemberList;
+import com.etsdk.app.huov7.model.MemberModel;
 import com.etsdk.app.huov7.provider.MemberListItemViewProvider;
 import com.etsdk.hlrefresh.AdvRefreshListener;
 import com.etsdk.hlrefresh.BaseRefreshLayout;
 import com.etsdk.hlrefresh.MVCSwipeRefreshHelper;
-import com.hyphenate.easeui.model.user.MemberList;
-import com.hyphenate.easeui.model.user.MemberModel;
+import com.game.sdk.log.T;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.kymjs.rxvolley.client.HttpParams;
 import com.liang530.log.L;
 import com.liang530.rxvolley.HttpJsonCallBackDialog;
@@ -34,18 +37,16 @@ import butterknife.OnClick;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 
-public class MemberListActivity extends ImmerseActivity implements AdvRefreshListener {
+public class MemberListActivity extends ImmerseActivity {
 
     @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    BaseRefreshLayout baseRefreshLayout;
+    XRecyclerView recyclerView;
     @BindView(R.id.iv_titleLeft)
     ImageView ivTitleLeft;
     @BindView(R.id.tv_titleName)
     TextView tvTitleName;
-    @BindView(R.id.swrefresh)
-    SwipeRefreshLayout swrefresh;
-    private Items items = new Items();
+    int currentPage = 1;
+    MemberListItemViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +58,23 @@ public class MemberListActivity extends ImmerseActivity implements AdvRefreshLis
 
     private void setupUI() {
         tvTitleName.setText("成员列表");
-        baseRefreshLayout = new MVCSwipeRefreshHelper(swrefresh);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        MultiTypeAdapter multiTypeAdapter = new MultiTypeAdapter(items);
-        multiTypeAdapter.register(MemberModel.class, new MemberListItemViewProvider());
-        // 设置适配器
-        baseRefreshLayout.setAdapter(multiTypeAdapter);
-        baseRefreshLayout.setAdvRefreshListener(this);
-        baseRefreshLayout.refresh();
+        adapter = new MemberListItemViewAdapter(mContext, new ArrayList<MemberModel>());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                currentPage = 1;
+                getPageData();
+            }
+
+            @Override
+            public void onLoadMore() {
+                currentPage += 1;
+                getPageData();
+            }
+        });
+        getPageData();
     }
 
 
@@ -77,36 +87,42 @@ public class MemberListActivity extends ImmerseActivity implements AdvRefreshLis
         }
     }
 
-    @Override
-    public void getPageData(final int requestPageNo) {
+    public void getPageData() {
         HttpParams httpParams = AppApi.getCommonHttpParams(AppApi.memslist);
-        httpParams.put("page", requestPageNo);
+        httpParams.put("page", currentPage);
         httpParams.put("offset", 20);
         //成功，失败，null数据
         L.e("333", "url：" + AppApi.getUrl(AppApi.memslist));
         NetRequest.request(this).setParams(httpParams).get(AppApi.getUrl(AppApi.memslist), new HttpJsonCallBackDialog<MemberList>() {
             @Override
             public void onDataSuccess(MemberList data) {
+                recyclerView.refreshComplete();
                 L.e("333", "data：" + data.getData().size());
                 if (data != null && data.getData() != null) {
-                    Items resultItems = new Items();
-                    resultItems.addAll(data.getData());
-                    baseRefreshLayout.resultLoadData(items,resultItems, null);
+                    if (currentPage == 1) {
+                        adapter.upDate(data.getData());
+                    } else {
+                        adapter.addDate(data.getData());
+                    }
                 } else {
-                    baseRefreshLayout.resultLoadData(items, new ArrayList(), requestPageNo - 1);
+                    if (currentPage == 1) {
+                        T.s(mContext, "");
+                    } else {
+                        recyclerView.setNoMore(true);
+                    }
                 }
             }
 
             @Override
             public void onJsonSuccess(int code, String msg, String data) {
                 L.e("333", "code：" + code + "msg：" + msg + "data：" + data);
-                baseRefreshLayout.resultLoadData(items, null, null);
+                recyclerView.refreshComplete();
             }
 
             @Override
             public void onFailure(int errorNo, String strMsg, String completionInfo) {
-                baseRefreshLayout.resultLoadData(items, null, null);
                 L.e("333", "code：" + errorNo + "msg：" + strMsg + "data：" + completionInfo);
+                recyclerView.refreshComplete();
             }
         });
     }
