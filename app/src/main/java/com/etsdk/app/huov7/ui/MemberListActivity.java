@@ -3,9 +3,7 @@ package com.etsdk.app.huov7.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,10 +14,6 @@ import com.etsdk.app.huov7.base.ImmerseActivity;
 import com.etsdk.app.huov7.http.AppApi;
 import com.etsdk.app.huov7.model.MemberList;
 import com.etsdk.app.huov7.model.MemberModel;
-import com.etsdk.app.huov7.provider.MemberListItemViewProvider;
-import com.etsdk.hlrefresh.AdvRefreshListener;
-import com.etsdk.hlrefresh.BaseRefreshLayout;
-import com.etsdk.hlrefresh.MVCSwipeRefreshHelper;
 import com.game.sdk.log.T;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.kymjs.rxvolley.client.HttpParams;
@@ -34,8 +28,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.drakeet.multitype.Items;
-import me.drakeet.multitype.MultiTypeAdapter;
 
 public class MemberListActivity extends ImmerseActivity {
 
