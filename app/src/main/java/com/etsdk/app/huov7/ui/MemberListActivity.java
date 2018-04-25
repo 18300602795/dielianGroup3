@@ -46,6 +46,7 @@ public class MemberListActivity extends ImmerseActivity {
     @BindView(R.id.tv_titleName)
     TextView tvTitleName;
     int currentPage = 1;
+    
     MemberListItemViewAdapter adapter;
 
     @Override
