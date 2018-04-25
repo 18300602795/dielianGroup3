@@ -30,7 +30,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MemberListActivity extends ImmerseActivity {
-    
     @BindView(R.id.recyclerView)
     XRecyclerView recyclerView;
     @BindView(R.id.iv_titleLeft)
