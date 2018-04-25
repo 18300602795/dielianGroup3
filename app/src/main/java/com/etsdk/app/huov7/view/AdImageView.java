@@ -12,6 +12,7 @@ import com.etsdk.app.huov7.ui.CouponDetailActivity;
 import com.etsdk.app.huov7.ui.GameDetailV2Activity;
 import com.etsdk.app.huov7.ui.GiftDetailActivity;
 import com.etsdk.app.huov7.ui.WebViewActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.liang530.utils.GlideDisplay;
 
 /**
@@ -37,8 +38,7 @@ public class AdImageView extends ImageView {
     }
 
     public void setAdImage(final AdImage adImage) {
-//        GlideDisplay.display(this,adImage.getImage(), R.mipmap.gg);
-        Glide.with(context).load(adImage.getImage()).placeholder(R.mipmap.gg).into(this);
+        ImgUtil.setImg(context, adImage.getImage(), R.mipmap.gg, this);
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

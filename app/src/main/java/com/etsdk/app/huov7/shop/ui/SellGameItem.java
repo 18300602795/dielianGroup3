@@ -24,6 +24,7 @@ import com.etsdk.app.huov7.ui.SettingActivity;
 import com.etsdk.app.huov7.ui.WebViewActivity;
 import com.etsdk.app.huov7.ui.dialog.DownAddressSelectDialogUtil;
 import com.etsdk.app.huov7.ui.dialog.Open4gDownHintDialog;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.game.sdk.http.HttpCallbackDecode;
 import com.game.sdk.http.HttpParamsBuild;
 import com.game.sdk.util.GsonUtil;
@@ -100,8 +101,7 @@ public class SellGameItem extends BaseDownView {
         pbDown.setProgress(100);
         TasksManager.getImpl().addDownloadListenerById(gameBean.getGameid(), this);
         tvGameName.setText(gameBean.getGamename());
-//        GlideDisplay.display(ivGameIcon, gameBean.getIcon(), R.mipmap.ic_launcher);
-        Glide.with(context).load(gameBean.getIcon()).placeholder(R.mipmap.ic_launcher).into(ivGameIcon);
+        ImgUtil.setImg(context,gameBean.getIcon(), R.mipmap.ic_launcher, ivGameIcon);
         tvServer.setText(servser);
         tvDesc.setText(gameBean.getOneword());
     }

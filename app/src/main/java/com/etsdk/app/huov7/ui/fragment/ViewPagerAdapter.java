@@ -18,6 +18,7 @@ import com.etsdk.app.huov7.ui.CouponDetailActivity;
 import com.etsdk.app.huov7.ui.GameDetailV2Activity;
 import com.etsdk.app.huov7.ui.GiftDetailActivity;
 import com.etsdk.app.huov7.ui.WebViewActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(final ViewGroup container,
                                   final int position) {
         View view = LayoutInflater.from(context).inflate(R.layout.header_img, null);
-        ImageView img = view.findViewById(R.id.img_header);
+        ImageView img = (ImageView) view.findViewById(R.id.img_header);
 //        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
 //                StringUtils.dip2px(container.getContext(), 300), StringUtils.dip2px(container.getContext(), 160));
 //        img.setLayoutParams(layoutParams);
@@ -72,7 +73,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                 }
             }
         });
-        Glide.with(context).load(listBean.getImage()).placeholder(R.mipmap.gg).into(img);
+        ImgUtil.setImg(context, listBean.getImage(), R.mipmap.gg, img);
         container.addView(view);
         return view;
     }

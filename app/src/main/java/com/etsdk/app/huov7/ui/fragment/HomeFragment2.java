@@ -19,7 +19,6 @@ import com.etsdk.app.huov7.model.HomePage1Data;
 import com.etsdk.app.huov7.ui.DownloadManagerActivity;
 import com.etsdk.app.huov7.ui.SearchActivity;
 import com.etsdk.app.huov7.util.StringUtils;
-import com.game.sdk.log.L;
 import com.kymjs.rxvolley.client.HttpParams;
 import com.liang530.rxvolley.HttpJsonCallBackDialog;
 import com.liang530.rxvolley.NetRequest;
@@ -66,7 +65,6 @@ public class HomeFragment2 extends AutoLazyFragment {
                     height = StringUtils.dip2px(mContext, 100);
                 }
                 float alpha = Float.valueOf(height) / Float.valueOf(StringUtils.dip2px(mContext, 100));
-                L.i("333", "alpha：" + alpha);
                 title_tv.setAlpha(alpha);
             }
         });

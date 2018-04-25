@@ -31,6 +31,7 @@ import com.etsdk.app.huov7.ui.SettingActivity;
 import com.etsdk.app.huov7.ui.WebViewActivity;
 import com.etsdk.app.huov7.ui.dialog.DownAddressSelectDialogUtil;
 import com.etsdk.app.huov7.ui.dialog.Open4gDownHintDialog;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.game.sdk.http.HttpCallbackDecode;
 import com.game.sdk.http.HttpParamsBuild;
 import com.game.sdk.log.L;
@@ -132,8 +133,7 @@ public class NewListGameItem extends BaseDownView {
         TasksManager.getImpl().addDownloadListenerById(gameBean.getGameid(), this);
         tvGameName.setText(gameBean.getGamename());
         tvOneword.setText(gameBean.getOneword());
-//        GlideDisplay.display(ivGameImg, gameBean.getIcon(), R.mipmap.icon_load);
-        Glide.with(context).load(gameBean.getIcon()).placeholder(R.mipmap.icon_load).into(ivGameImg);
+        ImgUtil.setImg(context, gameBean.getIcon(), R.mipmap.icon_load, ivGameImg);
         gameTagView.setGameType(gameBean.getType());
 
         //返利、打折

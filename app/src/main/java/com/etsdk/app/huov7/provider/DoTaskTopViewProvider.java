@@ -14,6 +14,7 @@ import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.DoTaskTop;
 import com.etsdk.app.huov7.model.UserInfoResultBean;
 import com.etsdk.app.huov7.ui.ScoreRankActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.game.sdk.util.GsonUtil;
 import com.google.gson.JsonSyntaxException;
 import com.liang530.control.LoginControl;
@@ -53,8 +54,7 @@ public class DoTaskTopViewProvider
                 UserInfoResultBean userInfoResultBean = GsonUtil.getGson().fromJson(userInfo, UserInfoResultBean.class);
                 if(userInfoResultBean!=null){
                     holder.tvUserName.setText(userInfoResultBean.getNickname());
-//                    GlideDisplay.display(holder.ivMineHead, userInfoResultBean.getPortrait(), R.mipmap.ic_launcher);
-                    Glide.with(holder.context).load(userInfoResultBean.getPortrait()).placeholder(R.mipmap.ic_launcher).into(holder.ivMineHead);
+                    ImgUtil.setImg(holder.context, userInfoResultBean.getPortrait(), R.mipmap.ic_launcher, holder.ivMineHead);
                 }
             } catch (JsonSyntaxException e) {
                 e.printStackTrace();

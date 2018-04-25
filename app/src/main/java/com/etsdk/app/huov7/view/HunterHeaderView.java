@@ -44,20 +44,20 @@ public class HunterHeaderView extends RelativeLayout {
     public void setGameBeanList(GameBeanList gameBeanList) {
         this.gameBeanList = gameBeanList;
         game_ll.removeAllViews();
-        if (gameBeanList.getData().getList().size() <= 10) {
+        if (gameBeanList.getData().getList().size() <= 20) {
             for (int i = 0; i < gameBeanList.getData().getList().size(); i++) {
                 GameItemView gameItemView = new GameItemView(mContext);
                 gameItemView.setData(gameBeanList.getData().getList().get(i));
                 game_ll.addView(gameItemView);
             }
-            game_ll.addView(new MoreItemView(mContext));
+//            game_ll.addView(new MoreItemView(mContext));
         } else {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 20; i++) {
                 GameItemView gameItemView = new GameItemView(mContext);
                 gameItemView.setData(gameBeanList.getData().getList().get(i));
                 game_ll.addView(gameItemView);
             }
-            game_ll.addView(new MoreItemView(mContext));
+//            game_ll.addView(new MoreItemView(mContext));
         }
     }
 

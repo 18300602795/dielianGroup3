@@ -120,8 +120,8 @@ public class PostPhotoAdapter extends RecyclerView.Adapter {
 
         public ShowPhotoViewHolder(View itemView) {
             super(itemView);
-            photo_iv = itemView.findViewById(R.id.photo_iv);
-            close_iv = itemView.findViewById(R.id.close_iv);
+            photo_iv = (ImageView) itemView.findViewById(R.id.photo_iv);
+            close_iv = (ImageView) itemView.findViewById(R.id.close_iv);
         }
     }
 
@@ -130,7 +130,7 @@ public class PostPhotoAdapter extends RecyclerView.Adapter {
 
         public AddPhotoViewHolder(View itemView) {
             super(itemView);
-            add_iv = itemView.findViewById(R.id.add_iv);
+            add_iv = (ImageView) itemView.findViewById(R.id.add_iv);
         }
     }
 

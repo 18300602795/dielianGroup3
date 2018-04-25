@@ -8,5 +8,6 @@
         android:id="@+id/item_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:src="@mipmap/gg" />
 </LinearLayout>

@@ -23,6 +23,7 @@ import com.etsdk.app.huov7.model.SignInResultBean;
 import com.etsdk.app.huov7.model.UserSignRequestBean;
 import com.etsdk.app.huov7.model.UserSignResultBean;
 import com.etsdk.app.huov7.ui.dialog.SignInOkDialogUtil;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.game.sdk.domain.BaseRequestBean;
 import com.game.sdk.http.HttpCallbackDecode;
 import com.game.sdk.http.HttpParamsBuild;
@@ -99,8 +100,7 @@ public class SignInActivity extends ImmerseActivity {
                         &&data.getData().getSigntopper().getList()!=null
                         &&data.getData().getSigntopper().getList().size()>0) {
                     final AdImage adImage = data.getData().getSigntopper().getList().get(0);
-//                    GlideDisplay.display(ivSignTop,adImage.getImage(),R.mipmap.gg);
-                    Glide.with(SignInActivity.this).load(adImage.getImage()).placeholder(R.mipmap.gg).into(ivSignTop);
+                    ImgUtil.setImg(SignInActivity.this, adImage.getImage(), R.mipmap.gg, ivSignTop);
                     ivSignTop.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

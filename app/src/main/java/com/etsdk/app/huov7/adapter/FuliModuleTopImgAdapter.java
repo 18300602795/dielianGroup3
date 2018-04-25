@@ -14,6 +14,7 @@ import com.etsdk.app.huov7.ui.CouponDetailActivity;
 import com.etsdk.app.huov7.ui.GameDetailV2Activity;
 import com.etsdk.app.huov7.ui.GiftDetailActivity;
 import com.etsdk.app.huov7.ui.WebViewActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 
 import java.util.List;
 
@@ -40,8 +41,7 @@ public class FuliModuleTopImgAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         final AdImage adImage = datas.get(position);
         if(adImage!=null){
-//            GlideDisplay.display(((ViewHolder)holder).ivImage,datas.get(position).getImage(),R.mipmap.gg);
-            Glide.with(((ViewHolder) holder).context).load(datas.get(position).getImage()).placeholder(R.mipmap.gg).into(((ViewHolder)holder).ivImage);
+            ImgUtil.setImg(((ViewHolder) holder).context, datas.get(position).getImage(), R.mipmap.gg, ((ViewHolder)holder).ivImage);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

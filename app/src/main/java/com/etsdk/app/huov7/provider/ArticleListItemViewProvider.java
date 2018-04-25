@@ -18,6 +18,7 @@ import com.etsdk.app.huov7.model.ArticleBean;
 import com.etsdk.app.huov7.ui.CommentActivity;
 import com.etsdk.app.huov7.ui.LoginActivity;
 import com.etsdk.app.huov7.ui.ShowImageActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.app.huov7.util.StringUtils;
 import com.etsdk.app.huov7.util.TimeUtils;
 import com.game.sdk.SdkConstant;
@@ -70,24 +71,24 @@ public class ArticleListItemViewProvider
                 holder.img2.setVisibility(View.GONE);
                 holder.img3.setVisibility(View.GONE);
                 holder.img4.setVisibility(View.VISIBLE);
-                Glide.with(holder.context).load(imgs[0]).placeholder(errorImage).into(holder.img1);
+                ImgUtil.setImg(holder.context, imgs[0], errorImage, holder.img1);
             } else if (imgs.length == 2) {
                 holder.img_ll.setVisibility(View.VISIBLE);
                 holder.img1.setVisibility(View.VISIBLE);
                 holder.img2.setVisibility(View.VISIBLE);
                 holder.img3.setVisibility(View.GONE);
                 holder.img4.setVisibility(View.GONE);
-                Glide.with(holder.context).load(imgs[0]).placeholder(errorImage).into(holder.img1);
-                Glide.with(holder.context).load(imgs[1]).placeholder(errorImage).into(holder.img2);
+                ImgUtil.setImg(holder.context, imgs[0], errorImage, holder.img1);
+                ImgUtil.setImg(holder.context, imgs[1], errorImage, holder.img2);
             } else if (imgs.length >= 3) {
                 holder.img_ll.setVisibility(View.VISIBLE);
                 holder.img1.setVisibility(View.VISIBLE);
                 holder.img2.setVisibility(View.VISIBLE);
                 holder.img3.setVisibility(View.VISIBLE);
                 holder.img4.setVisibility(View.GONE);
-                Glide.with(holder.context).load(imgs[0]).placeholder(errorImage).into(holder.img1);
-                Glide.with(holder.context).load(imgs[1]).placeholder(errorImage).into(holder.img2);
-                Glide.with(holder.context).load(imgs[2]).placeholder(errorImage).into(holder.img3);
+                ImgUtil.setImg(holder.context, imgs[0], errorImage, holder.img1);
+                ImgUtil.setImg(holder.context, imgs[1], errorImage, holder.img2);
+                ImgUtil.setImg(holder.context, imgs[2], errorImage, holder.img3);
             }
         } else {
             holder.img_ll.setVisibility(View.GONE);
@@ -98,7 +99,7 @@ public class ArticleListItemViewProvider
         holder.name_tv.setText(articleBean.getNickname());
         holder.count_tv.setText(articleBean.getContents());
         holder.like_num.setText(articleBean.getLike_number());
-        Glide.with(holder.context).load(SdkConstant.BASE_URL + articleBean.getPortrait()).placeholder(R.mipmap.ic_launcher).into(holder.head_img);
+        ImgUtil.setImg(holder.context, SdkConstant.BASE_URL + articleBean.getPortrait(), R.mipmap.ic_launcher, holder.head_img);
         if (articleBean.getP_status() != null && articleBean.getP_status().equals("1")) {
             holder.like_img.setImageResource(R.mipmap.praise_1215);
         } else {

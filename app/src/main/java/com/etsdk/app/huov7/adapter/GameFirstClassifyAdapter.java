@@ -19,6 +19,7 @@ import com.etsdk.app.huov7.ui.CouponDetailActivity;
 import com.etsdk.app.huov7.ui.GameDetailV2Activity;
 import com.etsdk.app.huov7.ui.GiftDetailActivity;
 import com.etsdk.app.huov7.ui.WebViewActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.game.sdk.util.GsonUtil;
 import com.liang530.utils.BaseAppUtil;
 
@@ -66,8 +67,7 @@ public class GameFirstClassifyAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof TopBannerViewHolder) {//广告
             TopBannerViewHolder topBannerViewHolder = (TopBannerViewHolder) holder;
-//            GlideDisplay.display(topBannerViewHolder.ivImgae,adImage.getImage(),R.mipmap.gg);
-            Glide.with(topBannerViewHolder.context).load(adImage.getImage()).placeholder(R.mipmap.gg).into(topBannerViewHolder.ivImgae);
+            ImgUtil.setImg(topBannerViewHolder.context, adImage.getImage(), R.mipmap.gg, topBannerViewHolder.ivImgae);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -96,8 +96,7 @@ public class GameFirstClassifyAdapter extends RecyclerView.Adapter {
             itemViewHolder.recySecondClassify.setHasFixedSize(true);
             itemViewHolder.recySecondClassify.setAdapter(new SecondClassifyGvAdapter(gameClassify, gameClassify.getSublist(), gameClassify.getTypename()));
             itemViewHolder.tvClassifyName.setText(gameClassify.getTypename());
-//            GlideDisplay.display(itemViewHolder.ivFirstClassifyImg, gameClassify.getIcon(),R.mipmap.ic_launcher);
-            Glide.with(itemViewHolder.context).load(gameClassify.getIcon()).placeholder(R.mipmap.ic_launcher).into(itemViewHolder.ivFirstClassifyImg);
+            ImgUtil.setImg(itemViewHolder.context, gameClassify.getIcon(), R.mipmap.ic_launcher, itemViewHolder.ivFirstClassifyImg);
             ((ItemViewHolder) holder).ivFirstClassifyImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

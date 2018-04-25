@@ -3,17 +3,39 @@
     android:id="@+id/activity_game_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-    <include layout="@layout/include_comm_title"/>
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swrefresh"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_comm_title" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
+
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/nodate_ll"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            />
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/version_update" />
+
+            <TextView
+                android:id="@+id/nodate_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="没有数据"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

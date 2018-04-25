@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.base.AutoLazyFragment;
+import com.etsdk.app.huov7.util.ImgUtil;
 
 import butterknife.BindView;
 
@@ -48,7 +49,7 @@ public class ShowImgFragment extends AutoLazyFragment {
         super.onCreateViewLazy(savedInstanceState);
         setContentView(R.layout.item_show_img);
         progressBar.setVisibility(View.VISIBLE);
-        Glide.with(getActivity()).load(img).placeholder(R.mipmap.ic_launcher).into(show_img);
+        ImgUtil.setImg(getActivity(), img, R.mipmap.ic_launcher, show_img);
         show_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

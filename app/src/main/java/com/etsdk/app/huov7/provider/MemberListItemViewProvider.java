@@ -11,9 +11,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
+import com.etsdk.app.huov7.model.MemberModel;
 import com.etsdk.app.huov7.ui.OtherInfoActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.game.sdk.SdkConstant;
-import com.hyphenate.easeui.model.user.MemberModel;
 import com.liang530.views.imageview.CircleImageView;
 
 import butterknife.BindView;
@@ -38,7 +39,7 @@ public class MemberListItemViewProvider
     protected void onBindViewHolder(@NonNull final ViewHolder holder, @NonNull final MemberModel memberModel) {
         holder.master_name.setText(memberModel.getNickname());
         holder.post_tv.setVisibility(View.VISIBLE);
-        Glide.with(holder.context).load(SdkConstant.BASE_URL + memberModel.getPortrait()).placeholder(R.drawable.bg_game).into(holder.iv_mineHead);
+        ImgUtil.setImg(holder.context, SdkConstant.BASE_URL + memberModel.getPortrait(), R.drawable.bg_game, holder.iv_mineHead);
         switch (memberModel.getPosition()) {
             case "1":
                 holder.post_tv.setText("会长");
@@ -56,10 +57,9 @@ public class MemberListItemViewProvider
         holder.item_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                OtherInfoActivity.start(holder.context, memberModel);
+                OtherInfoActivity.start(holder.context, memberModel.getUsername());
             }
         });
-
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

@@ -19,6 +19,7 @@ import com.etsdk.app.huov7.model.GiftDetail;
 import com.etsdk.app.huov7.model.GiftListItem;
 import com.etsdk.app.huov7.model.UserInfoResultBean;
 import com.etsdk.app.huov7.ui.dialog.DialogGiftUtil;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.app.huov7.util.StringUtils;
 import com.etsdk.app.huov7.view.LoadStatusView;
 import com.game.sdk.domain.BaseRequestBean;
@@ -137,9 +138,7 @@ public class GiftDetailActivity extends ImmerseActivity implements View.OnClickL
             e.printStackTrace();
             tvGiftDate.setText("");
         }
-
-//        GlideDisplay.display(ivGiftImage, giftListItem.getIcon(), R.mipmap.ic_launcher);
-        Glide.with(GiftDetailActivity.this).load(giftListItem.getIcon()).placeholder(R.mipmap.ic_launcher).into(ivGiftImage);
+        ImgUtil.setImg(GiftDetailActivity.this, giftListItem.getIcon(), R.mipmap.ic_launcher, ivGiftImage);
         int total = giftListItem.getTotal();
         int remain = giftListItem.getRemain();
         int progress = 100;

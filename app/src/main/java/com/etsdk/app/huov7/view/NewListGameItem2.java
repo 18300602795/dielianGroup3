@@ -27,6 +27,7 @@ import com.etsdk.app.huov7.ui.SettingActivity;
 import com.etsdk.app.huov7.ui.WebViewActivity;
 import com.etsdk.app.huov7.ui.dialog.DownAddressSelectDialogUtil;
 import com.etsdk.app.huov7.ui.dialog.Open4gDownHintDialog;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.game.sdk.http.HttpCallbackDecode;
 import com.game.sdk.http.HttpParamsBuild;
 import com.game.sdk.log.L;
@@ -106,7 +107,7 @@ public class NewListGameItem2 extends BaseDownView {
         tvGameName.setText(gameBean.getGamename());
         tvOneword.setText(gameBean.getOneword());
         down_tv.setText(TasksManager.getImpl().getStatusText(gameBean.getGameid()));
-        Glide.with(getContext()).load(gameBean.getIcon()).placeholder(R.mipmap.icon_load).into(ivGameImg);
+        ImgUtil.setImg(getContext(), gameBean.getIcon(), R.mipmap.icon_load, ivGameImg);
     }
 
     @OnClick({R.id.game_list_item, R.id.tv_att, R.id.down_tv, R.id.gift_tv, R.id.share_tv})

@@ -24,6 +24,7 @@ import com.etsdk.app.huov7.model.GameBean;
 import com.etsdk.app.huov7.model.GameDetail;
 import com.etsdk.app.huov7.ui.fragment.DetailDescFragment;
 import com.etsdk.app.huov7.ui.fragment.DetailFuliFragment;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.app.huov7.view.DrawCanvas;
 import com.etsdk.app.huov7.view.GameDetailDownView;
 import com.etsdk.app.huov7.view.GameTagView;
@@ -154,8 +155,7 @@ public class NewGameDetailActivity extends ImmerseActivity implements PullHeader
 
     private void setupData(GameBean gameBean) {
         this.gameBean = gameBean;
-//        GlideDisplay.display(ivGameImg, gameBean.getIcon(), R.mipmap.ic_launcher);
-        Glide.with(NewGameDetailActivity.this).load(gameBean.getIcon()).placeholder(R.mipmap.icon_load).into(ivGameImg);
+        ImgUtil.setImg(NewGameDetailActivity.this, gameBean.getIcon(), R.mipmap.icon_load, ivGameImg);
         tvGameName.setText(gameBean.getGamename());
         tvTitleName.setText(gameBean.getGamename());
         tvGameSize.setText(gameBean.getSize());

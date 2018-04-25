@@ -13,6 +13,7 @@ import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.shop.model.MyGameBean;
 import com.etsdk.app.huov7.shop.model.SelectGameEvent;
 import com.etsdk.app.huov7.shop.ui.MyGameListActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.liang530.views.imageview.roundedimageview.RoundedImageView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -53,8 +54,7 @@ public class MyGameItemViewProvider
             }
         });
         holder.tvName.setText(gameBean.getGamename());
-//        GlideDisplay.display(holder.ivGameIcon, gameBean.getIcon(), R.mipmap.icon_load);
-        Glide.with(holder.context).load(gameBean.getIcon()).placeholder(R.mipmap.icon_load).into(holder.ivGameIcon);
+        ImgUtil.setImg(holder.context, gameBean.getIcon(), R.mipmap.icon_load, holder.ivGameIcon);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

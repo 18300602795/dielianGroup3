@@ -50,7 +50,7 @@ public class GuildFragment extends AutoLazyFragment {
     @Override
     protected void onCreateViewLazy(Bundle savedInstanceState) {
         super.onCreateViewLazy(savedInstanceState);
-        setContentView(R.layout.fragment_guild);
+        setContentView(R.layout.fragment_xrecycle);
         setupUI();
     }
 
@@ -103,7 +103,6 @@ public class GuildFragment extends AutoLazyFragment {
                     } else {
                         adapter.addDate(data.getData().getList());
                     }
-
                 } else {
                     if (currentPage == 1) {
                         T.s(getActivity(), "");
@@ -115,12 +114,14 @@ public class GuildFragment extends AutoLazyFragment {
 
             @Override
             public void onJsonSuccess(int code, String msg, String data) {
-                fragment_recycle.refreshComplete();
+                if (fragment_recycle != null)
+                    fragment_recycle.refreshComplete();
             }
 
             @Override
             public void onFailure(int errorNo, String strMsg, String completionInfo) {
-                fragment_recycle.refreshComplete();
+                if (fragment_recycle != null)
+                    fragment_recycle.refreshComplete();
             }
         });
     }

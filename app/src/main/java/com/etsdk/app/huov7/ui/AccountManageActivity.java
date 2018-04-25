@@ -16,31 +16,42 @@ import com.etsdk.app.huov7.BuildConfig;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.base.AileApplication;
 import com.etsdk.app.huov7.base.ImmerseActivity;
+import com.etsdk.app.huov7.chat.modle.FriendshipInfo;
+import com.etsdk.app.huov7.chat.modle.GroupInfo;
+import com.etsdk.app.huov7.chat.modle.UserInfo;
 import com.etsdk.app.huov7.http.AppApi;
-import com.etsdk.app.huov7.model.AddressList;
+import com.etsdk.app.huov7.model.PhotoModel;
 import com.etsdk.app.huov7.model.UpdateNickNameRequest;
 import com.etsdk.app.huov7.model.UserInfoResultBean;
 import com.etsdk.app.huov7.ui.dialog.HintDialogUtil;
 import com.etsdk.app.huov7.ui.dialog.UpdateTextDialogUtil;
+import com.etsdk.app.huov7.util.ImgUtil;
+import com.etsdk.app.huov7.util.JsonUtil;
 import com.game.sdk.HuosdkManager;
 import com.game.sdk.domain.BaseRequestBean;
 import com.game.sdk.http.HttpCallbackDecode;
 import com.game.sdk.http.HttpParamsBuild;
 import com.game.sdk.listener.OnInitSdkListener;
 import com.game.sdk.util.GsonUtil;
-import com.hyphenate.chat.EMClient;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpParams;
 import com.liang530.control.LoginControl;
+import com.liang530.log.L;
 import com.liang530.log.T;
 import com.liang530.photopicker.beans.SelectPhotoEvent;
 import com.liang530.rxvolley.HttpJsonCallBackDialog;
 import com.liang530.rxvolley.NetRequest;
 import com.liang530.utils.GlideDisplay;
+import com.tencent.TIMCallBack;
+import com.tencent.TIMFriendshipManager;
+import com.tencent.qcloud.presentation.event.MessageEvent;
+import com.tencent.qcloud.tlslibrary.service.TlsBusiness;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 
@@ -141,7 +152,7 @@ public class AccountManageActivity extends ImmerseActivity {
     }
 
     private void updateUserInfoData(UserInfoResultBean userInfoResultBean) {
-        int errorImage = R.mipmap.ic_launcher;
+        int errorImage = R.drawable.bg_game;
         if (BuildConfig.projectCode == 177) {//177七二网络
             errorImage = R.mipmap.touxiang;
         }
@@ -180,7 +191,6 @@ public class AccountManageActivity extends ImmerseActivity {
                 new HintDialogUtil().showHintDialog(AccountManageActivity.this, "友情提示", "是否确定退出登录", "确定", "取消", new HintDialogUtil.HintDialogListener() {
                     @Override
                     public void ok(String content) {
-                        EMClient.getInstance().logout(true);
                         logout();
                     }
 
@@ -222,6 +232,7 @@ public class AccountManageActivity extends ImmerseActivity {
         RxVolley.post(AppApi.getUrl(AppApi.logoutApi), httpParamsBuild.getHttpParams(), httpCallbackDecode);
         LoginControl.clearLogin();
         LoginActivity.start(mActivity);
+        logoutIM();
         finish();
         HuosdkManager.getInstance().initSdk(this, new OnInitSdkListener() {
             @Override
@@ -234,12 +245,21 @@ public class AccountManageActivity extends ImmerseActivity {
         });
     }
 
+    private void logoutIM() {
+        if (AileApplication.isLogin) {
+            AileApplication.isLogin = false;
+            TlsBusiness.logout(UserInfo.getInstance().getId());
+            UserInfo.getInstance().setId(null);
+            MessageEvent.getInstance().clear();
+            FriendshipInfo.getInstance().clear();
+            GroupInfo.getInstance().clear();
+        }
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSelectPhotoEvent(SelectPhotoEvent selectPhotoEvent) {
         if ("headimg".equals(selectPhotoEvent.flag) && selectPhotoEvent.imagePath != null) {
-//            GlideDisplay.display(ivMineHead, new File(selectPhotoEvent.imagePath));
-            Glide.with(AccountManageActivity.this).load(selectPhotoEvent.imagePath).into(ivMineHead);
+            ImgUtil.setImg(AccountManageActivity.this, selectPhotoEvent.imagePath, R.mipmap.icon_load, ivMineHead);
             updateHeadImage(new File(selectPhotoEvent.imagePath));
         }
     }
@@ -248,24 +268,28 @@ public class AccountManageActivity extends ImmerseActivity {
         HttpParams httpParams = AppApi.getCommonHttpParams(AppApi.userHeadImgApi);
         httpParams.put("portrait", file);
         //成功，失败，null数据
-        NetRequest.request(this).setParams(httpParams).post(AppApi.getUrl(AppApi.userHeadImgApi), new HttpJsonCallBackDialog<AddressList>() {
+        NetRequest.request(this).setParams(httpParams).post(AppApi.getUrl(AppApi.userHeadImgApi), new HttpJsonCallBackDialog<String>() {
             @Override
-            public void onDataSuccess(AddressList data) {
+            public void onDataSuccess(String data) {
                 T.s(mContext, "上传成功");
             }
+
+            @Override
+            public void onJsonSuccess(int code, String msg, String data) {
+                L.e("333", "code：" + code + "msg：" + msg + "data：" + data);
+                try {
+                    JSONObject jsonObject = new JSONObject(data);
+                    String data2 = jsonObject.getString("data");
+                    L.e("333", "data2：" + data2);
+                    PhotoModel photoModel = JsonUtil.parse(data2, PhotoModel.class);
+                    L.e("333", "photoModel：" + photoModel.getPortrait());
+                    setPhoto(photoModel.getPortrait());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    L.e("333", "e：" + e.toString());
+                }
+            }
         });
-//        NetRequest.request(this).setParams(httpParams).post("https://api.idielian.com/api/v7/bbs/list", new HttpJsonCallBackDialog<AddressList>() {
-//            @Override
-//            public void onDataSuccess(AddressList data) {
-//                T.s(mContext, "上传成功");
-//            }
-//
-//            @Override
-//            public void onFailure(VolleyError error) {
-//                super.onFailure(error);
-//                T.s(mContext, "上传失败：" + error.toString());
-//            }
-//        });
     }
 
 
@@ -278,6 +302,7 @@ public class AccountManageActivity extends ImmerseActivity {
                 }
                 tvNickName.setText(content);
                 tvNickName.setTag(content);
+                setNick(content);
                 submitUpdateNickName(content);
             }
 
@@ -307,5 +332,38 @@ public class AccountManageActivity extends ImmerseActivity {
         httpCallbackDecode.setLoadingCancel(false);
         httpCallbackDecode.setShowLoading(false);
         RxVolley.post(AppApi.getUrl(AppApi.nickNameUpdateApi), httpParamsBuild.getHttpParams(), httpCallbackDecode);
+    }
+
+    private void setPhoto(final String faceUrl) {
+        TIMFriendshipManager.getInstance().setFaceUrl(faceUrl, new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                //错误码 code 和错误描述 desc，可用于定位请求失败原因
+                //错误码 code 列表请参见错误码表
+                L.e("333", "setFaceUrl failed: " + code + " desc" + desc);
+            }
+
+            @Override
+            public void onSuccess() {
+                AileApplication.faceUrl = faceUrl;
+                L.e("333", "setFaceUrl succ");
+            }
+        });
+    }
+
+    private void setNick(String nick) {
+        TIMFriendshipManager.getInstance().setNickName(nick, new TIMCallBack() {
+            @Override
+            public void onError(int code, String desc) {
+                //错误码 code 和错误描述 desc，可用于定位请求失败原因
+                //错误码 code 列表请参见错误码表
+                L.e("333", "setNickName failed: " + code + " desc");
+            }
+
+            @Override
+            public void onSuccess() {
+                L.e("333", "setNickName succ");
+            }
+        });
     }
 }

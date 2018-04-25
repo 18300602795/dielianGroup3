@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.Comment;
 import com.etsdk.app.huov7.ui.ReplyActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.app.huov7.util.TimeUtils;
 import com.game.sdk.SdkConstant;
 
@@ -52,7 +53,7 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
         holder.item_con.setText(comments.get(position).getContent());
         holder.tower_tv.setText("第" + String.valueOf(position + 2) + "楼");
         holder.time_tv.setText(TimeUtils.getTime(Long.valueOf(comments.get(position).getTime())));
-        Glide.with(context).load(SdkConstant.BASE_URL + comments.get(position).getPortrait()).placeholder(R.mipmap.ic_launcher).into(holder.head_img);
+        ImgUtil.setImg(context, SdkConstant.BASE_URL + comments.get(position).getPortrait(), R.mipmap.ic_launcher, holder.head_img);
         adapter2 = new ReplyAdapter2(context,comments.get(position).getReply());
         holder.item_recycle.setLayoutManager(new LinearLayoutManager(context));
         holder.item_recycle.setAdapter(adapter2);
@@ -82,13 +83,13 @@ public class ReplyAdapter extends RecyclerView.Adapter<ReplyAdapter.ReplyViewHol
 
         public ReplyViewHolder(View itemView) {
             super(itemView);
-            item_ll = itemView.findViewById(R.id.item_ll);
-            head_img = itemView.findViewById(R.id.head_img);
-            name_tv = itemView.findViewById(R.id.name_tv);
-            read_tv = itemView.findViewById(R.id.read_tv);
-            item_con = itemView.findViewById(R.id.item_con);
-            time_tv = itemView.findViewById(R.id.time_tv);
-            item_recycle = itemView.findViewById(R.id.item_recycle);
+            item_ll = (LinearLayout) itemView.findViewById(R.id.item_ll);
+            head_img = (ImageView) itemView.findViewById(R.id.head_img);
+            name_tv = (TextView) itemView.findViewById(R.id.name_tv);
+            read_tv = (TextView) itemView.findViewById(R.id.read_tv);
+            item_con = (TextView) itemView.findViewById(R.id.item_con);
+            time_tv = (TextView) itemView.findViewById(R.id.time_tv);
+            item_recycle = (RecyclerView) itemView.findViewById(R.id.item_recycle);
         }
     }
 

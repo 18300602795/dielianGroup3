@@ -19,6 +19,7 @@ import com.etsdk.app.huov7.down.TasksManagerModel;
 import com.etsdk.app.huov7.ui.DownloadingManagerActivity;
 import com.etsdk.app.huov7.ui.GameDetailV2Activity;
 import com.etsdk.app.huov7.util.GameViewUtil;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.liang530.log.L;
 import com.liang530.views.imageview.roundedimageview.RoundedImageView;
 
@@ -100,10 +101,8 @@ public class DownloadingListItem extends BaseDownView {
         TasksManager.getImpl().addDownloadListenerById(model.getGameId(), this);
         tvGameName.setText(model.getGameName());
         tvSpeed.setVisibility(GONE);
-//        GlideDisplay.display(ivGameImg, model.getGameIcon(), R.mipmap.ic_launcher);
-        Glide.with(context).load(model.getGameIcon()).placeholder(R.mipmap.ic_launcher).into(ivGameImg);
+        ImgUtil.setImg(context, model.getGameIcon(), R.mipmap.ic_launcher, ivGameImg);
         tvProgress.setText(TasksManager.getImpl().getDescText(model.getGameId()));
-
         gameTagView.setGameType(model.getGameType());
     }
 

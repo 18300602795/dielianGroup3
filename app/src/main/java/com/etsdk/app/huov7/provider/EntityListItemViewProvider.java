@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.Goods;
 import com.etsdk.app.huov7.ui.EntityDetailActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.game.sdk.util.GsonUtil;
 
 import butterknife.BindView;
@@ -49,8 +50,7 @@ public class EntityListItemViewProvider extends ItemViewProvider<Goods, EntityLi
         holder.tvPrice.setText("市场价:"+goods.getMarket_price()+"元");
         holder.tvName.setText(goods.getGoodsname());
         holder.tvRequestScore.setText(goods.getIntegral()+"积分");
-//        GlideDisplay.display(holder.ivGameImg,goods.getOriginal_img(),R.mipmap.ic_launcher);
-        Glide.with(holder.context).load(goods.getOriginal_img()).placeholder(R.mipmap.ic_launcher).into(holder.ivGameImg);
+        ImgUtil.setImg(holder.context, goods.getOriginal_img(), R.mipmap.ic_launcher, holder.ivGameImg);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

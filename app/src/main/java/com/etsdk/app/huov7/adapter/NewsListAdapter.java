@@ -16,6 +16,7 @@ import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.http.AppApi;
 import com.etsdk.app.huov7.model.NewsListBean;
 import com.etsdk.app.huov7.ui.WebViewActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.liang530.utils.BaseAppUtil;
 import com.liang530.views.refresh.mvc.IDataAdapter;
 
@@ -94,8 +95,7 @@ public class NewsListAdapter extends RecyclerView.Adapter implements IDataAdapte
             if(BuildConfig.projectCode == 74){
                 placehoder = R.mipmap.news_default;
             }
-//            GlideDisplay.display(((ViewHolder)holder).ivNewsImage, news.getImg(), placehoder);
-            Glide.with(context).load(news.getImg()).placeholder(placehoder).into(((ViewHolder)holder).ivNewsImage);
+            ImgUtil.setImg(context, news.getImg(), placehoder, ((ViewHolder)holder).ivNewsImage);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -124,8 +124,7 @@ public class NewsListAdapter extends RecyclerView.Adapter implements IDataAdapte
             if(BuildConfig.projectCode == 74){
                 placehoder = R.mipmap.news_default;
             }
-//            GlideDisplay.display(((AcrossViewHolder)holder).ivNewsImage, news.getImg(), placehoder);
-            Glide.with(((AcrossViewHolder)holder).context).load(news.getImg()).placeholder(placehoder).into(((AcrossViewHolder)holder).ivNewsImage);
+            ImgUtil.setImg(((AcrossViewHolder)holder).context, news.getImg(), placehoder, ((AcrossViewHolder)holder).ivNewsImage);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

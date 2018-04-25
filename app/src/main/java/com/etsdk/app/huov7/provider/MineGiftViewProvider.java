@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.GiftListItem;
 import com.etsdk.app.huov7.ui.GiftDetailActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.game.sdk.log.T;
 import com.liang530.utils.BaseAppUtil;
 import com.liang530.views.imageview.roundedimageview.RoundedImageView;
@@ -39,8 +40,7 @@ public class MineGiftViewProvider
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull final GiftListItem mineGift) {
-//        GlideDisplay.display(holder.ivGameImg,mineGift.getIcon(),R.mipmap.ic_launcher);
-        Glide.with(holder.context).load(mineGift.getIcon()).placeholder(R.mipmap.ic_launcher).into(holder.ivGameImg);
+        ImgUtil.setImg(holder.context, mineGift.getIcon(), R.mipmap.ic_launcher, holder.ivGameImg);
         holder.tvGiftName.setText(mineGift.getGiftname());
         holder.tvGiftCode.setText(mineGift.getGiftcode());
         String startTime=null;

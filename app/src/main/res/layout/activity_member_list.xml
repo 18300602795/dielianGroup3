@@ -3,17 +3,12 @@
     android:id="@+id/activity_game_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-    <include layout="@layout/include_comm_title"/>
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swrefresh"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_comm_title" />
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="match_parent" />
 </LinearLayout>

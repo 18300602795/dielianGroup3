@@ -9,25 +9,41 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
+import com.etsdk.app.huov7.adapter.ArticleListAdapter;
+import com.etsdk.app.huov7.base.AileApplication;
 import com.etsdk.app.huov7.base.ImmerseActivity;
+import com.etsdk.app.huov7.chat.ui.ChatActivity;
 import com.etsdk.app.huov7.http.AppApi;
 import com.etsdk.app.huov7.model.ArticleBean;
 import com.etsdk.app.huov7.model.ArticleList;
+import com.etsdk.app.huov7.model.BackBean;
+import com.etsdk.app.huov7.model.MemberList;
+import com.etsdk.app.huov7.model.MemberModel;
+import com.etsdk.app.huov7.model.OtherBean;
 import com.etsdk.app.huov7.provider.ArticleListItemViewProvider;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.hlrefresh.AdvRefreshListener;
 import com.etsdk.hlrefresh.BaseRefreshLayout;
 import com.etsdk.hlrefresh.MVCSwipeRefreshHelper;
 import com.game.sdk.SdkConstant;
-import com.hyphenate.easeui.model.user.MemberModel;
+import com.game.sdk.domain.BaseRequestBean;
+import com.game.sdk.http.HttpCallbackDecode;
+import com.game.sdk.http.HttpParamsBuild;
+import com.game.sdk.log.T;
+import com.game.sdk.util.GsonUtil;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpParams;
 import com.liang530.log.L;
 import com.liang530.rxvolley.HttpJsonCallBackDialog;
 import com.liang530.rxvolley.NetRequest;
 import com.liang530.views.imageview.CircleImageView;
+import com.tencent.TIMConversationType;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -39,25 +55,30 @@ import butterknife.OnClick;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 
-public class OtherInfoActivity extends ImmerseActivity implements AdvRefreshListener {
+import static android.R.attr.data;
+
+public class OtherInfoActivity extends ImmerseActivity {
     @BindView(R.id.group_icon)
     CircleImageView group_icon;
     @BindView(R.id.name_tv)
     TextView name_tv;
     @BindView(R.id.sign_tv)
     TextView sign_tv;
+    @BindView(R.id.nodate_ll)
+    LinearLayout nodate_ll;
+    @BindView(R.id.nodate_tv)
+    TextView nodate_tv;
 
     @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    BaseRefreshLayout baseRefreshLayout;
+    XRecyclerView recyclerView;
     @BindView(R.id.iv_titleLeft)
     ImageView ivTitleLeft;
     @BindView(R.id.tv_titleName)
     TextView tvTitleName;
-    @BindView(R.id.swrefresh)
-    SwipeRefreshLayout swrefresh;
-    private Items items = new Items();
-    private MemberModel memberModel;
+    String userName;
+    int currentPage = 1;
+    MemberModel memberModel;
+    ArticleListAdapter articleListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,37 +89,76 @@ public class OtherInfoActivity extends ImmerseActivity implements AdvRefreshList
     }
 
     private void setupUI() {
-        memberModel = (MemberModel) getIntent().getSerializableExtra("member");
+        userName = getIntent().getStringExtra("name");
         tvTitleName.setText("Ta的信息");
-        Log.i("333", "name：" + memberModel.getUsername());
-        name_tv.setText(memberModel.getNickname());
-        Glide.with(mContext).load(SdkConstant.BASE_URL + memberModel.getPortrait()).placeholder(R.drawable.bg_game).into(group_icon);
-        baseRefreshLayout = new MVCSwipeRefreshHelper(swrefresh);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        MultiTypeAdapter multiTypeAdapter = new MultiTypeAdapter(items);
-        multiTypeAdapter.register(ArticleBean.class, new ArticleListItemViewProvider(multiTypeAdapter));
-        // 设置适配器
-        baseRefreshLayout.setAdapter(multiTypeAdapter);
-        baseRefreshLayout.setAdvRefreshListener(this);
-        baseRefreshLayout.refresh();
+        articleListAdapter = new ArticleListAdapter(mContext, new ArrayList<ArticleBean>());
+        recyclerView.setAdapter(articleListAdapter);
+        getModel();
+    }
+
+    public void getModel() {
+        final OtherBean otherBean = new OtherBean();
+        otherBean.setUsername(userName);
+        HttpParamsBuild httpParamsBuild = new HttpParamsBuild(GsonUtil.getGson().toJson(otherBean));
+        HttpCallbackDecode httpCallbackDecode = new HttpCallbackDecode<MemberModel>(mActivity, httpParamsBuild.getAuthkey()) {
+            @Override
+            public void onDataSuccess(MemberModel data) {
+                if (data != null) {
+                    nodate_ll.setVisibility(View.GONE);
+                    memberModel = data;
+                    name_tv.setText(memberModel.getNickname());
+                    ImgUtil.setImg(mContext, SdkConstant.BASE_URL + memberModel.getPortrait(), R.drawable.bg_game, group_icon);
+                    recyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
+                        @Override
+                        public void onRefresh() {
+                            currentPage = 1;
+                            getPageData();
+                        }
+
+                        @Override
+                        public void onLoadMore() {
+                            currentPage += 1;
+                            getPageData();
+                        }
+                    });
+                    getPageData();
+                }
+            }
+
+            @Override
+            public void onFailure(String code, String msg) {
+                super.onFailure(code, msg);
+                AileApplication.groupId = "";
+            }
+        };
+        httpCallbackDecode.setShowTs(true);
+        httpCallbackDecode.setLoadingCancel(false);
+        httpCallbackDecode.setShowLoading(false);
+        RxVolley.post(AppApi.getUrl(AppApi.memsdetail), httpParamsBuild.getHttpParams(), httpCallbackDecode);
     }
 
 
-    @OnClick({R.id.iv_titleLeft, R.id.chat_tv})
+    @OnClick({R.id.iv_titleLeft, R.id.chat_tv, R.id.nodate_ll})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_titleLeft:
                 finish();
                 break;
+            case R.id.nodate_ll:
+                getModel();
+                break;
             case R.id.chat_tv:
+                if (memberModel != null)
+                    ChatActivity.navToChat(mContext, "fx" + memberModel.getUsername(), TIMConversationType.C2C);
                 break;
         }
     }
 
-    @Override
-    public void getPageData(final int requestPageNo) {
+    public void getPageData() {
+        nodate_ll.setVisibility(View.GONE);
         HttpParams httpParams = AppApi.getCommonHttpParams(AppApi.myListApi);
-        httpParams.put("page", requestPageNo);
+        httpParams.put("page", currentPage);
         httpParams.put("mem_id", memberModel.getMem_id());
         httpParams.put("offset", 20);
         //成功，失败，null数据
@@ -107,25 +167,46 @@ public class OtherInfoActivity extends ImmerseActivity implements AdvRefreshList
             @Override
             public void onDataSuccess(ArticleList data) {
                 L.e("333", "data：" + data.getData().size());
-                if (data != null && data.getData() != null) {
-                    Items resultItems = new Items();
-                    resultItems.addAll(data.getData());
-                    baseRefreshLayout.resultLoadData(items,resultItems, null);
+                recyclerView.refreshComplete();
+                if (data != null && data.getData() != null && data.getData() != null) {
+                    if (currentPage == 1) {
+                        articleListAdapter.upDate(data.getData());
+                    } else {
+                        articleListAdapter.addDate(data.getData());
+                    }
+
                 } else {
-                    baseRefreshLayout.resultLoadData(items, new ArrayList(), requestPageNo - 1);
+                    if (currentPage == 1) {
+                        nodate_ll.setVisibility(View.VISIBLE);
+                        nodate_tv.setText("Ta还没有发布过内容");
+                    } else {
+                        recyclerView.setNoMore(true);
+                    }
                 }
             }
 
             @Override
             public void onJsonSuccess(int code, String msg, String data) {
                 L.e("333", "code：" + code + "msg：" + msg + "data：" + data);
-                baseRefreshLayout.resultLoadData(items, null, null);
+                recyclerView.refreshComplete();
+                if (currentPage != 1) {
+                    recyclerView.setNoMore(true);
+                } else {
+                    nodate_ll.setVisibility(View.VISIBLE);
+                    nodate_tv.setText("Ta还没有发布过内容");
+                }
             }
 
             @Override
             public void onFailure(int errorNo, String strMsg, String completionInfo) {
                 L.e("333", "errorNo：" + errorNo + "strMsg：" + strMsg + "completionInfo：" + completionInfo);
-                baseRefreshLayout.resultLoadData(items, null, null);
+                recyclerView.refreshComplete();
+                if (currentPage != 1) {
+                    recyclerView.setNoMore(true);
+                } else {
+                    nodate_ll.setVisibility(View.VISIBLE);
+                    nodate_tv.setText("连接失败，请检查网络");
+                }
             }
         });
     }
@@ -137,9 +218,9 @@ public class OtherInfoActivity extends ImmerseActivity implements AdvRefreshList
     }
 
 
-    public static void start(Context context, MemberModel memberModel) {
+    public static void start(Context context, String userName) {
         Intent starter = new Intent(context, OtherInfoActivity.class);
-        starter.putExtra("member", memberModel);
+        starter.putExtra("name", userName);
         context.startActivity(starter);
     }
 }

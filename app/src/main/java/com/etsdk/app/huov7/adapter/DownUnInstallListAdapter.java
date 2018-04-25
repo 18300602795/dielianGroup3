@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.down.TasksManagerModel;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.liang530.utils.BaseAppUtil;
 import com.liang530.views.imageview.roundedimageview.RoundedImageView;
 
@@ -49,8 +50,7 @@ public class DownUnInstallListAdapter extends RecyclerView.Adapter {
             }
         });
         viewHolder.tvGameName.setText(tasksManagerModel.getGameName());
-//        GlideDisplay.display(viewHolder.ivGameImg,tasksManagerModel.getGameIcon(),R.mipmap.ic_launcher);
-        Glide.with(viewHolder.context).load(tasksManagerModel.getGameIcon()).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivGameImg);
+        ImgUtil.setImg(viewHolder.context, tasksManagerModel.getGameIcon(), R.mipmap.ic_launcher, viewHolder.ivGameImg);
     }
 
     @Override

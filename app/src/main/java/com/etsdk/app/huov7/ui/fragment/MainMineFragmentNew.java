@@ -35,6 +35,7 @@ import com.etsdk.app.huov7.ui.SettingActivity;
 import com.etsdk.app.huov7.ui.UpdatePwdActivity;
 import com.etsdk.app.huov7.ui.UserChargeRecordActivity;
 import com.etsdk.app.huov7.ui.UserSpendRecordActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.app.huov7.view.LoadStatusView;
 import com.game.sdk.domain.BaseRequestBean;
 import com.game.sdk.http.HttpNoLoginCallbackDecode;
@@ -179,8 +180,7 @@ public class MainMineFragmentNew extends AutoLazyFragment {
             tvNickName.setText(userInfoResultBean.getNickname());
             tvCoinBalance.setText(userInfoResultBean.getPtbcnt() + "");
             tvCouponBalance.setText(userInfoResultBean.getGmgamecnt());
-//            GlideDisplay.display(ivMineHead, userInfoResultBean.getPortrait(), errorImage);
-            Glide.with(getActivity()).load(userInfoResultBean.getPortrait()).placeholder(errorImage).into(ivMineHead);
+            ImgUtil.setImg(getActivity(), userInfoResultBean.getPortrait(), errorImage, ivMineHead);
             loadview.showSuccess();
             //存入用户信息
             LoginControl.saveKey(GsonUtil.getGson().toJson(userInfoResultBean));

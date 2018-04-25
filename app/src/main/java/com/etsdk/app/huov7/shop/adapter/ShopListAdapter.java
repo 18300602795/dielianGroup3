@@ -23,6 +23,7 @@ import com.etsdk.app.huov7.shop.ui.BuyHintDialogUtil;
 import com.etsdk.app.huov7.shop.ui.SellDetailActivity;
 import com.etsdk.app.huov7.shop.ui.SellEditActivity;
 import com.etsdk.app.huov7.shop.ui.ShopListFragment;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.hlrefresh.BaseRefreshLayout;
 import com.game.sdk.http.HttpCallbackDecode;
 import com.game.sdk.http.HttpParamsBuild;
@@ -78,8 +79,7 @@ public class ShopListAdapter extends RecyclerView.Adapter implements IDataAdapte
         viewHolder.tvGameName.setText(data.getGamename());
         viewHolder.tvServer.setText(data.getServername());
         viewHolder.tvDesc.setText(data.getDescription());
-//        GlideDisplay.display(viewHolder.ivIcon, data.getIcon(), R.mipmap.icon_load);
-        Glide.with(viewHolder.context).load(data.getIcon()).placeholder(R.mipmap.icon_load).into(viewHolder.ivIcon);
+        ImgUtil.setImg(viewHolder.context, data.getIcon(), R.mipmap.icon_load, viewHolder.ivIcon);
         String time;
         switch (type){
             case ShopListFragment.TYPE_ALL:

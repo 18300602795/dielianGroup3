@@ -16,6 +16,7 @@ import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.adapter.ReplyAdapter2;
 import com.etsdk.app.huov7.model.Comment;
 import com.etsdk.app.huov7.ui.ReplyActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.app.huov7.util.TimeUtils;
 import com.game.sdk.SdkConstant;
 import com.liang530.views.imageview.roundedimageview.RoundedImageView;
@@ -43,7 +44,7 @@ public class CommentListItemViewProvider
         holder.name_tv.setText(comment.getUname());
         holder.item_con.setText(comment.getContent());
         holder.time_tv.setText(TimeUtils.getTime(Long.valueOf(comment.getTime())));
-        Glide.with(holder.context).load(SdkConstant.BASE_URL + comment.getPortrait()).placeholder(R.mipmap.ic_launcher).into(holder.head_img);
+        ImgUtil.setImg(holder.context, SdkConstant.BASE_URL + comment.getPortrait(), R.mipmap.ic_launcher, holder.head_img);
         holder.adapter2 = new ReplyAdapter2(holder.context, comment.getReply());
         holder.item_recycle.setLayoutManager(new LinearLayoutManager(holder.context));
         holder.item_recycle.setAdapter(holder.adapter2);

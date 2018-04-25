@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.GameBean;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.game.sdk.log.L;
 import com.liang530.photopicker.ShowPicVPActivity;
 
@@ -53,7 +54,7 @@ public class GameImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
 //        GlideDisplay.display(holder.ivGameImg,data.get(position),R.mipmap.portrait_load);
         if (holder instanceof ViewHolder) {
-            Glide.with(((ViewHolder) holder).ivGameImg.getContext()).load(data.getImage().get(position)).dontAnimate().placeholder(R.mipmap.gg).into(((ViewHolder) holder).ivGameImg);
+            ImgUtil.setImg(((ViewHolder) holder).ivGameImg.getContext(), data.getImage().get(position), R.mipmap.gg, ((ViewHolder) holder).ivGameImg);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -61,7 +62,7 @@ public class GameImageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
         } else if (holder instanceof VideoHolder) {
-            Glide.with(((VideoHolder) holder).ivGameImg.getContext()).load(data.getImage().get(position)).dontAnimate().placeholder(R.mipmap.gg).into(((VideoHolder) holder).ivGameImg);
+            ImgUtil.setImg(((VideoHolder) holder).ivGameImg.getContext(), data.getImage().get(position), R.mipmap.gg, ((VideoHolder) holder).ivGameImg);
             String url = "http://tui.idielian.com";
             if (TextUtils.isEmpty(data.getApp_video())) {
                 ((VideoHolder) holder).player_iv.setVisibility(View.GONE);

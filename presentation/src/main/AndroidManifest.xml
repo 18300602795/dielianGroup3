@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tencent.qcloud.presentation">
+
+    <application android:allowBackup="true" android:label="@string/app_name"
+        android:supportsRtl="true">
+
+ <meta-data android:name="com.tencent.rdm.uuid" android:value="731397eb-f8e1-4e29-bd4f-e578f8135acd" />
+
+    </application>
+
+</manifest>

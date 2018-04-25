@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.GameBean;
 import com.etsdk.app.huov7.ui.GiftListActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.liang530.views.imageview.roundedimageview.RoundedImageView;
 
 import java.util.List;
@@ -48,8 +49,7 @@ public class HotRecGameGiftAdapter extends RecyclerView.Adapter {
         });
         viewHolder.tvGameName.setText(gameBean.getGamename());
         viewHolder.tvGiftCount.setText("礼包总数:"+gameBean.getGiftcnt());
-//        GlideDisplay.display(viewHolder.ivGameImg,gameBean.getIcon(),R.mipmap.ic_launcher);
-        Glide.with(viewHolder.context).load(gameBean.getIcon()).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivGameImg);
+        ImgUtil.setImg(viewHolder.context, gameBean.getIcon(), R.mipmap.ic_launcher, viewHolder.ivGameImg);
     }
 
     @Override

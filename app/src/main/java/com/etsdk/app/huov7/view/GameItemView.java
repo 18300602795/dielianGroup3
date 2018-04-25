@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.GameBean;
 import com.etsdk.app.huov7.ui.GameDetailV2Activity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.liang530.views.imageview.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
@@ -43,7 +44,7 @@ public class GameItemView extends LinearLayout {
 
     public void setData(GameBean gameBean) {
         this.gameBean = gameBean;
-        Glide.with(getContext()).load(gameBean.getIcon()).placeholder(R.mipmap.icon_load).into(iv_game_img);
+        ImgUtil.setImg(getContext(), gameBean.getIcon(), R.mipmap.icon_load, iv_game_img);
         tv_game_title.setText(gameBean.getGamename());
     }
 

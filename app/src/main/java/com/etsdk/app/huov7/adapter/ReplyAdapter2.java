@@ -49,7 +49,7 @@ public class ReplyAdapter2 extends RecyclerView.Adapter<ReplyAdapter2.ItemReplyH
 
         public ItemReplyHolderView(View itemView) {
             super(itemView);
-            con_tv = itemView.findViewById(R.id.con_tv);
+            con_tv = (TextView) itemView.findViewById(R.id.con_tv);
         }
     }
 

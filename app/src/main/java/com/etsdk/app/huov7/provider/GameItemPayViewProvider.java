@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.GameItemPay;
 import com.etsdk.app.huov7.ui.GamePayActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.app.huov7.view.GameTagView;
 import com.liang530.views.imageview.roundedimageview.RoundedImageView;
 
@@ -46,8 +47,7 @@ public class GameItemPayViewProvider
         });
         holder.tvGameName.setText(gameItemPay.getGamename());
         holder.tvOneword.setText(gameItemPay.getOneword());
-//        GlideDisplay.display(holder.ivGameImg, gameItemPay.getIcon(), R.mipmap.ic_launcher);
-        Glide.with(holder.context).load(gameItemPay.getIcon()).placeholder(R.mipmap.ic_launcher).into(holder.ivGameImg);
+        ImgUtil.setImg(holder.context, gameItemPay.getIcon(), R.mipmap.ic_launcher, holder.ivGameImg);
         holder.gameTagView.setGameType(gameItemPay.getType());
         if(isViewTypeStart(gameItemPay)){
             holder.vLine.setVisibility(View.GONE);

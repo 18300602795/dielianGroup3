@@ -19,6 +19,7 @@ import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.adapter.ImageAdapter;
 import com.etsdk.app.huov7.model.ArticleBean;
 import com.etsdk.app.huov7.model.Dianzan;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.app.huov7.util.StringUtils;
 import com.etsdk.app.huov7.util.TimeUtils;
 import com.game.sdk.SdkConstant;
@@ -82,18 +83,18 @@ public class CommentHeaderView extends RelativeLayout {
     private void initView() {
         names = new ArrayList<>();
         mRootView = LayoutInflater.from(mContext).inflate(R.layout.comment_header, this);
-        name_tv = mRootView.findViewById(R.id.name_tv);
-        read_tv = mRootView.findViewById(R.id.read_tv);
-        time_tv = mRootView.findViewById(R.id.time_tv);
-        title_tv = mRootView.findViewById(R.id.title_tv);
-        cont_tv = mRootView.findViewById(R.id.cont_tv);
-        praise_bg = mRootView.findViewById(R.id.praise_bg);
-        head_img = mRootView.findViewById(R.id.head_img);
-        praise_img = mRootView.findViewById(R.id.praise_img);
-        like_ll = mRootView.findViewById(R.id.like_ll);
+        name_tv = (TextView) mRootView.findViewById(R.id.name_tv);
+        read_tv = (TextView) mRootView.findViewById(R.id.read_tv);
+        time_tv = (TextView) mRootView.findViewById(R.id.time_tv);
+        title_tv = (TextView) mRootView.findViewById(R.id.title_tv);
+        cont_tv = (TextView) mRootView.findViewById(R.id.cont_tv);
+        praise_bg = (LinearLayout) mRootView.findViewById(R.id.praise_bg);
+        head_img = (ImageView) mRootView.findViewById(R.id.head_img);
+        praise_img = (ImageView) mRootView.findViewById(R.id.praise_img);
+        like_ll = (LinearLayout) mRootView.findViewById(R.id.like_ll);
 
-        img_recycle = mRootView.findViewById(R.id.img_recycle);
-        like_num = mRootView.findViewById(R.id.like_num);
+        img_recycle = (RecyclerView) mRootView.findViewById(R.id.img_recycle);
+        like_num = (TextView) mRootView.findViewById(R.id.like_num);
         img_recycle.setLayoutManager(new LinearLayoutManager(mContext));
         if (!StringUtils.isEmpty(argumentBean.getImage_url())) {
             String pictures = argumentBean.getImage_url();
@@ -115,7 +116,7 @@ public class CommentHeaderView extends RelativeLayout {
         time_tv.setText(TimeUtils.getTime(Long.valueOf(argumentBean.getPublish_time())));
         title_tv.setText(argumentBean.getLike_number());
         cont_tv.setText(argumentBean.getContents());
-        Glide.with(mContext).load(SdkConstant.BASE_URL + argumentBean.getPortrait()).placeholder(R.mipmap.ic_launcher).into(head_img);
+        ImgUtil.setImg(mContext, SdkConstant.BASE_URL + argumentBean.getPortrait(), R.mipmap.ic_launcher, head_img);
         if (argumentBean.getP_status() != null && argumentBean.getP_status().equals("1")) {
             praise_img.setImageResource(R.mipmap.praise_1215);
             praise_bg.setBackgroundResource(R.drawable.like_bg_select);

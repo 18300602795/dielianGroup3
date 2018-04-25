@@ -1,6 +1,5 @@
 package com.etsdk.app.huov7.model;
 
-import com.hyphenate.easeui.model.user.MemberModel;
 
 import java.util.List;
 

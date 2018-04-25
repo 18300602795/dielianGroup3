@@ -13,6 +13,7 @@ import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.GameBean;
 import com.etsdk.app.huov7.model.GamelikeBean;
 import com.etsdk.app.huov7.ui.GameDetailV2Activity;
+import com.etsdk.app.huov7.util.ImgUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,8 +38,7 @@ public class GamelikeItemAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final GameBean gameBean = gamelikeBean.getGameBeanList().get(position);
         ((ViewHolder)holder).tvName.setText(gameBean.getGamename());
-//        GlideDisplay.display(((ViewHolder)holder).ivGameIcon, gameBean.getIcon(), R.mipmap.icon_load);
-        Glide.with(((ViewHolder)holder).context).load(gameBean.getIcon()).placeholder(R.mipmap.icon_load).into(((ViewHolder)holder).ivGameIcon);
+        ImgUtil.setImg(((ViewHolder)holder).context, gameBean.getIcon(), R.mipmap.icon_load, ((ViewHolder)holder).ivGameIcon);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

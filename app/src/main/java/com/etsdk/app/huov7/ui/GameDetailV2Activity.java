@@ -24,6 +24,7 @@ import com.etsdk.app.huov7.model.MessageEvent;
 import com.etsdk.app.huov7.ui.fragment.DetailDescFragment;
 import com.etsdk.app.huov7.ui.fragment.GiftListFragment;
 import com.etsdk.app.huov7.ui.fragment.NewsListFragment;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.app.huov7.view.GameDetailDownView;
 import com.etsdk.app.huov7.view.GameTagView;
 import com.etsdk.app.huov7.view.LoadStatusView;
@@ -218,8 +219,7 @@ public class GameDetailV2Activity extends ImmerseActivity {
     private void setupData(GameBean gameBean) {
         this.gameBean = gameBean;
         appBarLayout.setExpanded(true);
-//        GlideDisplay.display(ivGameImg, gameBean.getIcon(), R.mipmap.icon_load);
-        Glide.with(GameDetailV2Activity.this).load(gameBean.getIcon()).placeholder(R.mipmap.icon_load).into(ivGameImg);
+        ImgUtil.setImg(GameDetailV2Activity.this, gameBean.getIcon(), R.mipmap.icon_load, ivGameImg);
         tvGameName.setText(gameBean.getGamename());
         tvTitleName.setText(gameBean.getGamename());
         tvGameSize.setText(gameBean.getSize());

@@ -1,5 +1,7 @@
 package com.etsdk.app.huov7.ui;
 
+import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +21,13 @@ import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.adapter.GroupHomeAdapter;
 import com.etsdk.app.huov7.base.AileApplication;
 import com.etsdk.app.huov7.base.ImmerseActivity;
+import com.etsdk.app.huov7.chat.modle.FriendshipInfo;
+import com.etsdk.app.huov7.chat.modle.GroupInfo;
+import com.etsdk.app.huov7.chat.modle.MessageFactory;
+import com.etsdk.app.huov7.chat.modle.NomalConversation;
+import com.etsdk.app.huov7.chat.modle.UserInfo;
+import com.etsdk.app.huov7.chat.utils.PushUtil;
+import com.etsdk.app.huov7.chat.utils.TimeUtil;
 import com.etsdk.app.huov7.http.AppApi;
 import com.etsdk.app.huov7.model.StartupResultBean;
 import com.etsdk.app.huov7.model.UserInfoResultBean;
@@ -35,20 +44,29 @@ import com.game.sdk.http.HttpNoLoginCallbackDecode;
 import com.game.sdk.http.HttpParamsBuild;
 import com.game.sdk.log.L;
 import com.game.sdk.util.GsonUtil;
-import com.hyphenate.EMCallBack;
-import com.hyphenate.EMConnectionListener;
-import com.hyphenate.EMError;
-import com.hyphenate.EMMessageListener;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMCursorResult;
-import com.hyphenate.chat.EMGroupInfo;
-import com.hyphenate.chat.EMMessage;
-import com.hyphenate.exceptions.HyphenateException;
-import com.hyphenate.util.NetUtils;
 import com.jaeger.library.StatusBarUtil;
 import com.jude.swipbackhelper.SwipeBackHelper;
 import com.kymjs.rxvolley.RxVolley;
 import com.liang530.log.T;
+import com.tencent.TIMCallBack;
+import com.tencent.TIMConversation;
+import com.tencent.TIMConversationType;
+import com.tencent.TIMFriendshipManager;
+import com.tencent.TIMGroupCacheInfo;
+import com.tencent.TIMGroupManager;
+import com.tencent.TIMManager;
+import com.tencent.TIMMessage;
+import com.tencent.TIMUser;
+import com.tencent.TIMUserProfile;
+import com.tencent.TIMUserStatusListener;
+import com.tencent.TIMValueCallBack;
+import com.tencent.qcloud.presentation.event.MessageEvent;
+import com.tencent.qcloud.presentation.presenter.ConversationPresenter;
+import com.tencent.qcloud.presentation.viewfeatures.ConversationView;
+import com.tencent.qcloud.sdk.Constant;
+import com.tencent.qcloud.tlslibrary.service.TLSService;
+import com.tencent.qcloud.tlslibrary.service.TlsBusiness;
+import com.tencent.qcloud.ui.NotifyDialog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -58,6 +76,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static android.R.attr.data;
+import static com.etsdk.app.huov7.R.id.count_tv;
+import static com.etsdk.app.huov7.R.id.single_tip;
+import static com.etsdk.app.huov7.R.id.time_tv;
 
 /**
  * Created by Administrator on 2018\3\14 0014.
@@ -111,7 +134,7 @@ public class MainActivity2 extends ImmerseActivity {
     List<Fragment> fragmentList = new ArrayList<>();
     private GroupHomeAdapter mAdapter;
     private List<TextView> textViews;
-    public List<EMMessage> emmessages;
+    private ConversationPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,17 +143,71 @@ public class MainActivity2 extends ImmerseActivity {
             L.i("333", "透明状态栏");
             setTranslucentStatus(true);
         }
-        emmessages = new ArrayList<>();
         setContentView(R.layout.activity_main3);
         ButterKnife.bind(this);
         SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
-        EMClient.getInstance().chatManager().loadAllConversations();
-        EMClient.getInstance().groupManager().loadAllGroups();
         initDate();
-//        //注册一个监听连接状态的listener
-        EMClient.getInstance().addConnectionListener(new MyConnectionListener());
         getUserInfoData();
-        EMClient.getInstance().chatManager().addMessageListener(msgListener);
+        //互踢下线逻辑
+        TIMManager.getInstance().setUserStatusListener(new TIMUserStatusListener() {
+            @Override
+            public void onForceOffline() {
+                Log.d("333", "receive force offline message");
+//                Intent intent = new Intent(MainActivity2.this, DialogActivity.class);
+//                startActivity(intent);
+            }
+
+            @Override
+            public void onUserSigExpired() {
+                //票据过期，需要重新登录
+                new NotifyDialog().show(getString(R.string.tls_expire), getSupportFragmentManager(), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        logout();
+                    }
+                });
+            }
+        });
+        presenter = new ConversationPresenter(new ConversationView() {
+            @Override
+            public void initView(List<TIMConversation> conversationList) {
+
+            }
+
+            @Override
+            public void updateMessage(TIMMessage message) {
+                if (message == null) {
+                    return;
+                }
+//                if (message.getConversation().getType() == TIMConversationType.System){
+//                    return;
+//                }
+                if (!message.isRead()) {
+                    chat_tip.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void updateFriendshipMessage() {
+
+            }
+
+            @Override
+            public void removeConversation(String identify) {
+
+            }
+
+            @Override
+            public void updateGroupInfo(TIMGroupCacheInfo info) {
+
+            }
+
+            @Override
+            public void refresh() {
+
+            }
+        });
+        presenter.getConversation();
     }
 
     @Override
@@ -200,9 +277,6 @@ public class MainActivity2 extends ImmerseActivity {
         if (fragmentList != null && fragmentList.size() >= 5) {
             if (fragmentList.get(4) != null) {
                 ((MineFragment) fragmentList.get(4)).updateData();
-            }
-            if (fragmentList.get(4) != null) {
-                (fragmentList.get(2)).onResume();
             }
         }
     }
@@ -336,7 +410,6 @@ public class MainActivity2 extends ImmerseActivity {
                 break;
             case 2:
                 chat_iv.setImageResource(R.mipmap.zixun_s);
-                ((ChatFragment) fragmentList.get(2)).setChat();
                 ((ChatFragment) fragmentList.get(2)).initDate();
                 break;
             case 3:
@@ -369,110 +442,8 @@ public class MainActivity2 extends ImmerseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EMClient.getInstance().chatManager().removeMessageListener(msgListener);
-        EMClient.getInstance().logout(true);
+        logout();
     }
-
-    //实现ConnectionListener接口
-    private class MyConnectionListener implements EMConnectionListener {
-        @Override
-        public void onConnected() {
-        }
-
-        @Override
-        public void onDisconnected(final int error) {
-            runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    if (error == EMError.USER_REMOVED) {
-                        // 显示帐号已经被移除
-                    } else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
-                        // 显示帐号在其他设备登录
-                    } else {
-                        if (NetUtils.hasNetwork(mContext)) {
-                            //连接不到聊天服务器
-                        } else {
-                            //当前网络不可用，请检查网络设置
-                        }
-                    }
-                }
-            });
-        }
-    }
-
-    EMMessageListener msgListener = new EMMessageListener() {
-
-        @Override
-        public void onMessageReceived(List<EMMessage> messages) {
-            //收到消息
-            L.i("333", "收到消息：");
-            emmessages.clear();
-            emmessages = messages;
-            refreshUIWithMessage();
-        }
-
-        @Override
-        public void onCmdMessageReceived(List<EMMessage> messages) {
-            //收到透传消息
-            L.i("333", "收到透传消息");
-            emmessages.clear();
-            emmessages = messages;
-            refreshUIWithMessage();
-        }
-
-        @Override
-        public void onMessageRead(List<EMMessage> messages) {
-            //收到已读回执
-            L.i("333", "收到已读回执");
-        }
-
-        @Override
-        public void onMessageDelivered(List<EMMessage> messages) {
-            //收到已送达回执
-            L.i("333", "收到已送达回执");
-            emmessages.clear();
-            emmessages = messages;
-            refreshUIWithMessage();
-        }
-
-        @Override
-        public void onMessageRecalled(List<EMMessage> messages) {
-            //消息被撤回
-            L.i("333", "消息被撤回");
-        }
-
-        @Override
-        public void onMessageChanged(EMMessage message, Object change) {
-            //消息状态变动
-            L.i("333", "消息状态变动");
-        }
-    };
-
-    private void refreshUIWithMessage() {
-        runOnUiThread(new Runnable() {
-            public void run() {
-                // refresh unread count
-                int count = getUnreadMsgCountTotal();
-                if (count > 0) {
-                    chat_tip.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-    }
-
-
-
-
-    /**
-     * get unread message count
-     *
-     * @return
-     */
-    public int getUnreadMsgCountTotal() {
-        return EMClient.getInstance().chatManager().getUnreadMessageCount();
-    }
-
 
     public void getUserInfoData() {
         final BaseRequestBean baseRequestBean = new BaseRequestBean();
@@ -481,9 +452,7 @@ public class MainActivity2 extends ImmerseActivity {
             @Override
             public void onDataSuccess(UserInfoResultBean data) {
                 if (data != null) {
-                    if (!StringUtils.isEmpty(data.getReg()) && data.getReg().equals("2")) {
-                        login(data.getUsername(), "123456");
-                    }
+                    loginIM(data);
                 }
             }
 
@@ -498,34 +467,58 @@ public class MainActivity2 extends ImmerseActivity {
         RxVolley.post(AppApi.getUrl(AppApi.userDetailApi2), httpParamsBuild.getHttpParams(), httpCallbackDecode);
     }
 
-    private void login(String userName, String password) {
-        EMClient.getInstance().login(userName, password, new EMCallBack() {//回调
+    private void loginIM(final UserInfoResultBean data) {
+        String id = TLSService.getInstance().getLastUserIdentifier();
+        //发起登录请求
+        TIMUser user = new TIMUser();
+        user.setAccountType(String.valueOf(Constant.ACCOUNT_TYPE));
+        user.setAppIdAt3rd(String.valueOf(Constant.SDK_APPID));
+        user.setIdentifier(id);
+
+        TIMManager.getInstance().login(
+                Constant.SDK_APPID,
+                user,
+                TLSService.getInstance().getUserSig(id),                    //用户帐号签名，由私钥加密获得，具体请参考文档
+                new TIMCallBack() {
+                    @Override
+                    public void onError(int i, String s) {
+                        AileApplication.isLogin = false;
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        //初始化程序后台后消息推送
+                        PushUtil.getInstance();
+                        //初始化消息监听
+                        MessageEvent.getInstance();
+                        AileApplication.faceUrl = data.getPortrait();
+                        AileApplication.isLogin = true;
+                        L.i("333", "登录成功：");
+                        applyGroup();
+                    }
+                });
+    }
+
+    private void applyGroup() {
+        TIMGroupManager.getInstance().applyJoinGroup("@TGS#2ZN3CKFFU", "", new TIMCallBack() {
+            @Override
+            public void onError(int i, String s) {
+                L.i("333", "加群失败：" + i + "msg：" + s);
+            }
+
             @Override
             public void onSuccess() {
-                EMClient.getInstance().groupManager().loadAllGroups();
-                EMClient.getInstance().chatManager().loadAllConversations();
-                Log.d("333", "登录聊天服务器成功！");
-                try {
-                    EMCursorResult<EMGroupInfo> result = EMClient.getInstance().groupManager().getPublicGroupsFromServer(10, null);//需异步处理
-                    List<EMGroupInfo> groupsList = result.getData();
-                    String cursor = result.getCursor();
-                    Log.i("333", "id：" + groupsList.get(0).getGroupId());
-                    AileApplication.groupId = groupsList.get(0).getGroupId();
-                } catch (HyphenateException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-
-            }
-
-            @Override
-            public void onError(int code, String message) {
-                Log.d("333", "登录聊天服务器失败！" + "code " + code + " message " + message);
+                L.i("333", "加群成功：");
             }
         });
+    }
+
+    public void logout() {
+        TlsBusiness.logout(UserInfo.getInstance().getId());
+        UserInfo.getInstance().setId(null);
+        MessageEvent.getInstance().clear();
+        FriendshipInfo.getInstance().clear();
+        GroupInfo.getInstance().clear();
     }
 
 }

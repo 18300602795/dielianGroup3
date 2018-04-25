@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.BackRecordList;
 import com.etsdk.app.huov7.ui.BackEditActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.liang530.views.imageview.roundedimageview.RoundedImageView;
 import com.liang530.views.refresh.mvc.IDataAdapter;
 
@@ -56,8 +57,7 @@ public class BackRecordAadapter extends RecyclerView.Adapter implements IDataAda
                 ((GameListViewHolder) holder).tvPayType.setBackgroundResource(R.drawable.back_state_false);
                 break;
         }
-//        GlideDisplay.display(((GameListViewHolder) holder).iv_game_img, listBeen.get(position).getGame_icon(), R.mipmap.ic_launcher);
-        Glide.with(context).load(listBeen.get(position).getGame_icon()).placeholder(R.mipmap.ic_launcher).into(((GameListViewHolder) holder).iv_game_img);
+        ImgUtil.setImg(context, listBeen.get(position).getGame_icon(), R.mipmap.ic_launcher, ((GameListViewHolder) holder).iv_game_img);
         ((GameListViewHolder) holder).tvTime.setText("充值时间：" + format.format(new Date((Long.valueOf(listBeen.get(position).getTime()) * 1000))));
         ((GameListViewHolder) holder).game_list_item.setOnClickListener(new View.OnClickListener() {
             @Override

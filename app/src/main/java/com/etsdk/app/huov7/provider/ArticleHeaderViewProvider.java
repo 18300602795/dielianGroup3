@@ -18,6 +18,7 @@ import com.etsdk.app.huov7.http.AppApi;
 import com.etsdk.app.huov7.model.ArticleBeans;
 import com.etsdk.app.huov7.model.Dianzan;
 import com.etsdk.app.huov7.ui.LoginActivityV1;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.app.huov7.util.StringUtils;
 import com.etsdk.app.huov7.util.TimeUtils;
 import com.etsdk.hlrefresh.BaseRefreshLayout;
@@ -116,7 +117,7 @@ public class ArticleHeaderViewProvider
         holder.time_tv.setText(TimeUtils.getTime(Long.valueOf(articleBeans.getPublish_time())));
         holder.title_tv.setText(articleBeans.getTitle());
         holder.cont_tv.setText(articleBeans.getContents());
-        Glide.with(holder.context).load(SdkConstant.BASE_URL + articleBeans.getPortrait()).placeholder(R.mipmap.ic_launcher).into(holder.head_img);
+        ImgUtil.setImg(holder.context, SdkConstant.BASE_URL + articleBeans.getPortrait(), R.mipmap.ic_launcher, holder.head_img);
         if (articleBeans.getP_status() != null && articleBeans.getP_status().equals("1")) {
             holder.praise_img.setImageResource(R.mipmap.praise_1215);
             holder.praise_bg.setBackgroundResource(R.drawable.like_bg_select);

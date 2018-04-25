@@ -13,10 +13,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.base.AileApplication;
+import com.game.sdk.SdkConstant;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static com.etsdk.app.huov7.R.id.imageView;
 
 /**
  * Created by admin on 2016/8/17.
@@ -81,5 +84,9 @@ public class ImgUtil {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static void setImg(Context context, String url, int errImg, ImageView imageView) {
+        Glide.with(context).load(url).dontAnimate().placeholder(errImg).into(imageView);
     }
 }

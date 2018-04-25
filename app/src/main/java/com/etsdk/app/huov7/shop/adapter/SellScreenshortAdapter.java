@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.liang530.photopicker.ShowPicVPActivity;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class SellScreenshortAdapter extends RecyclerView.Adapter<SellScreenshort
 
     @Override
     public void onBindViewHolder(SellScreenshortAdapter.ViewHolder holder, final int position) {
-        Glide.with(holder.itemView.getContext()).load(data.get(position)).error(R.mipmap.ic_launcher).into(holder.ivGameImg);
+        ImgUtil.setImg(holder.itemView.getContext(), data.get(position), R.mipmap.ic_launcher, holder.ivGameImg);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

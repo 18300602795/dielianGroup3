@@ -11,6 +11,7 @@ import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.GuildHeader;
 import com.etsdk.app.huov7.ui.MemberListActivity;
 import com.etsdk.app.huov7.ui.OtherInfoActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.app.huov7.util.StringUtils;
 import com.game.sdk.SdkConstant;
 import com.liang530.views.imageview.CircleImageView;
@@ -51,7 +52,7 @@ public class GuildHeaderView extends LinearLayout {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_mineHead:
-                OtherInfoActivity.start(context, guildHeader.getPresident());
+                OtherInfoActivity.start(context, guildHeader.getPresident().getUsername());
                 break;
         }
     }
@@ -62,20 +63,20 @@ public class GuildHeaderView extends LinearLayout {
             member_icons.removeAllViews();
             master_name.setText(guildHeader.getPresident().getNickname());
             notice_tv.setText(guildHeader.getGuild().get(0).getAnnouncement());
-            Glide.with(context).load(SdkConstant.BASE_URL + guildHeader.getPresident().getPortrait()).placeholder(R.drawable.bg_game).into(iv_mineHead);
+            ImgUtil.setImg(context, SdkConstant.BASE_URL + guildHeader.getPresident().getPortrait(), R.drawable.bg_game, iv_mineHead);
             for (int i = 0; i < guildHeader.getMembers().size(); i++) {
                 CircleImageView roundedImageView = new CircleImageView(context);
                 final int finalI = i;
                 roundedImageView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        OtherInfoActivity.start(context, guildHeader.getMembers().get(finalI));
+                        OtherInfoActivity.start(context, guildHeader.getMembers().get(finalI).getUsername());
                     }
                 });
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(StringUtils.dip2px(context, 30), StringUtils.dip2px(context, 30));
                 layoutParams.setMargins(StringUtils.dip2px(context, 10), 0, StringUtils.dip2px(context, 10), 0);
                 roundedImageView.setLayoutParams(layoutParams);
-                Glide.with(context).load(SdkConstant.BASE_URL + guildHeader.getMembers().get(i).getPortrait()).placeholder(R.drawable.bg_game).into(roundedImageView);
+                ImgUtil.setImg(context, SdkConstant.BASE_URL + guildHeader.getMembers().get(i).getPortrait(), R.drawable.bg_game, roundedImageView);
                 member_icons.addView(roundedImageView);
             }
             CircleImageView roundedImageView = new CircleImageView(context);

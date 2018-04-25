@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.etsdk.app.huov7.R;
 import com.liang530.application.BaseApplication;
 import com.liang530.manager.AppManager;
 import com.liang530.photopicker.beans.SelectImageEvent;
@@ -28,7 +29,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import core.base.R;
 
 
 public class SelectPhotoCropActivity extends FragmentActivity implements View.OnClickListener {

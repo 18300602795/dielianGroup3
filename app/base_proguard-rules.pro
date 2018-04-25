@@ -15,7 +15,14 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keep class com.tencent.**{*;}
+-dontwarn com.tencent.**
 
+-keep class tencent.**{*;}
+-dontwarn tencent.**
+
+-keep class qalsdk.**{*;}
+-dontwarn qalsdk.**
 -dontwarn
 -dontoptimize
 -ignorewarnings						# 忽略警告，避免打包时某些警告出现

@@ -1,7 +1,9 @@
 package com.etsdk.app.huov7.ui;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -15,6 +17,14 @@ import com.jude.swipbackhelper.SwipeBackHelper;
 import com.liang530.application.BaseApplication;
 import com.liang530.log.SP;
 import com.liang530.utils.BaseAppUtil;
+import com.tencent.TIMLogLevel;
+import com.tencent.qcloud.presentation.business.InitBusiness;
+import com.tencent.qcloud.presentation.event.FriendshipEvent;
+import com.tencent.qcloud.presentation.event.GroupEvent;
+import com.tencent.qcloud.presentation.event.MessageEvent;
+import com.tencent.qcloud.presentation.event.RefreshEvent;
+import com.tencent.qcloud.tlslibrary.service.TlsBusiness;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,8 +42,23 @@ public class StartActivity extends ImmerseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
+        init();
         setupUI();
+        clearNotification();
         SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
+    }
+
+    private void init() {
+        SharedPreferences pref = getSharedPreferences("data", MODE_PRIVATE);
+        int loglvl = pref.getInt("loglvl", TIMLogLevel.DEBUG.ordinal());
+        //初始化IMSDK
+        InitBusiness.start(getApplicationContext(), loglvl);
+        //初始化TLS
+        TlsBusiness.init(getApplicationContext());
+        //设置刷新监听
+        RefreshEvent.getInstance();
+//        FriendshipEvent.getInstance().init();
+        GroupEvent.getInstance().init();
     }
 
     @Override
@@ -77,6 +102,16 @@ public class StartActivity extends ImmerseActivity {
             isFirstRun = true;
         }
         return isFirstRun;
+    }
+
+    /**
+     * 清楚所有通知栏通知
+     */
+    private void clearNotification() {
+        NotificationManager notificationManager = (NotificationManager) this
+                .getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
+        MiPushClient.clearNotification(getApplicationContext());
     }
 
 }

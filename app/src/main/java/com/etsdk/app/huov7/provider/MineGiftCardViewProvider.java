@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.Goods;
 import com.etsdk.app.huov7.ui.dialog.HintDialogUtil;
+import com.etsdk.app.huov7.util.ImgUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,8 +40,7 @@ public class MineGiftCardViewProvider
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull final Goods mineGoods) {
         holder.tvGoodsIntro.setText(mineGoods.getGoodsname());
         holder.tvMoney.setText(mineGoods.getMarket_price()+"元");
-//        GlideDisplay.display(holder.ivEntityImg,mineGoods.getOriginal_img(),R.mipmap.ic_launcher);
-        Glide.with(holder.context).load(mineGoods.getOriginal_img()).placeholder(R.mipmap.ic_launcher).into(holder.ivEntityImg);
+        ImgUtil.setImg(holder.context, mineGoods.getOriginal_img(), R.mipmap.ic_launcher, holder.ivEntityImg);
         if(isViewTypeStart(mineGoods)){
             holder.vLine.setVisibility(View.GONE);
         }else{

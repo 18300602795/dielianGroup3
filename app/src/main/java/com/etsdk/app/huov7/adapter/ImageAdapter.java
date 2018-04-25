@@ -40,7 +40,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     @Override
     public void onBindViewHolder(ImageViewHolder holder, int position) {
 //        Glide.with(context).load(imgs[position]).placeholder(R.mipmap.ic_launcher).into(holder.imageView);
-        loadIntoUseFitWidth(context, imgs[position], R.mipmap.ic_launcher, holder.imageView);
+        loadIntoUseFitWidth(context, imgs[position], R.mipmap.gg, holder.imageView);
     }
 
     /**
@@ -49,7 +49,6 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public static void loadIntoUseFitWidth(Context context, final String imageUrl, int errorImageId, final ImageView imageView) {
         Glide.with(context)
                 .load(imageUrl)
-                .override(StringUtils.dip2px(context, 300), StringUtils.dip2px(context, 300))
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -73,6 +72,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                         return false;
                     }
                 })
+                .dontAnimate()
                 .placeholder(errorImageId)
                 .error(errorImageId)
                 .into(imageView);
@@ -88,7 +88,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
         public ImageViewHolder(View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.item_img);
+            imageView = (ImageView) itemView.findViewById(R.id.item_img);
         }
     }
 

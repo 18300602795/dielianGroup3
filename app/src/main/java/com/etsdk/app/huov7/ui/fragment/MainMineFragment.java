@@ -34,6 +34,7 @@ import com.etsdk.app.huov7.ui.ScoreShopActivity;
 import com.etsdk.app.huov7.ui.SelectGamePayActivity;
 import com.etsdk.app.huov7.ui.SettingActivity;
 import com.etsdk.app.huov7.ui.SignInActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.app.huov7.view.LoadStatusView;
 import com.game.sdk.domain.BaseRequestBean;
 import com.game.sdk.http.HttpCallbackDecode;
@@ -161,8 +162,7 @@ public class MainMineFragment extends AutoLazyFragment {
         tvMyScore.setText(userInfoResultBean.getMyintegral());
         tvCouponCount.setText(userInfoResultBean.getCouponcnt() + "张");
         tvGiftCount.setText(userInfoResultBean.getGiftcnt() + "个");
-//        GlideDisplay.display(ivMineHead, userInfoResultBean.getPortrait(), R.mipmap.ic_launcher);
-        Glide.with(getActivity()).load(userInfoResultBean.getPortrait()).placeholder(R.mipmap.ic_launcher).into(ivMineHead);
+        ImgUtil.setImg(getActivity(), userInfoResultBean.getPortrait(), R.mipmap.ic_launcher, ivMineHead);
         loadview.showSuccess();
         //存入用户信息
         LoginControl.saveKey(GsonUtil.getGson().toJson(userInfoResultBean));
@@ -253,8 +253,7 @@ public class MainMineFragment extends AutoLazyFragment {
                             NewGameDetailActivity.start(v.getContext(),gameBean.getGameid());
                         }
                     });
-//                    GlideDisplay.display(imageView, gameBean.getIcon(), R.mipmap.ic_launcher);
-                    Glide.with(getActivity()).load(gameBean.getIcon()).placeholder(R.mipmap.ic_launcher).into(imageView);
+                    ImgUtil.setImg(getActivity(), gameBean.getIcon(), R.mipmap.ic_launcher, imageView);
                 }else{
                     imageView.setVisibility(View.INVISIBLE);
                     imageView.setClickable(false);

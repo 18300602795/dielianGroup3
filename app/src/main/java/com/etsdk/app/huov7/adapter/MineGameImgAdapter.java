@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.GameBean;
 import com.etsdk.app.huov7.ui.NewGameDetailActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +38,7 @@ public class MineGameImgAdapter extends RecyclerView.Adapter<MineGameImgAdapter.
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final GameBean gameBean = gameBeanList.get(position);
         if(gameBean!=null){
-//            GlideDisplay.display(holder.ivGameImg,gameBean.getIcon(),R.mipmap.ic_launcher);
-            Glide.with(holder.context).load(gameBean.getIcon()).placeholder(R.mipmap.ic_launcher).into(holder.ivGameImg);
+            ImgUtil.setImg(holder.context, gameBean.getIcon(), R.mipmap.ic_launcher, holder.ivGameImg);
         }else{//是空白占位
             holder.ivGameImg.setImageResource(R.color.transparent);
         }

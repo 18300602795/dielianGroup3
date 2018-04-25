@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.GameBean;
 import com.etsdk.app.huov7.ui.GameDetailV2Activity;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.liang530.views.imageview.roundedimageview.RoundedImageView;
 
 import java.util.List;
@@ -46,8 +47,7 @@ public class GameMoneyListAdapter extends RecyclerView.Adapter {
         });
         ViewHolder viewHolder = (ViewHolder) holder;
         GameBean gameBean = gameBeanList.get(position);
-//        GlideDisplay.display(viewHolder.ivGameImg, gameBean.getIcon(),R.mipmap.ic_launcher);
-        Glide.with(viewHolder.context).load(gameBean.getIcon()).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivGameImg);
+        ImgUtil.setImg(viewHolder.context, gameBean.getIcon(), R.mipmap.ic_launcher, viewHolder.ivGameImg);
         viewHolder.tvGameName.setText(gameBean.getGamename());
         viewHolder.tvOneword.setText(gameBean.getOneword());
         viewHolder.tvGameMoney.setText(gameBean.getGmcnt()+"游戏币");

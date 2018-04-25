@@ -56,15 +56,7 @@ public class MineAdapter extends RecyclerView.Adapter<MineAdapter.MineViewHolder
 
     @Override
     public void onBindViewHolder(MineAdapter.MineViewHolder holder, int position) {
-        if (data != null) {
-            holder.info_ll.setVisibility(View.VISIBLE);
-            holder.off_line.setVisibility(View.GONE);
-            holder.nick_tv.setText(data.getNickname());
-            GlideDisplay.display(holder.iv_mineHead, data.getPortrait(), R.mipmap.ic_launcher);
-        } else {
-            holder.info_ll.setVisibility(View.GONE);
-            holder.off_line.setVisibility(View.VISIBLE);
-        }
+
         holder.account_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

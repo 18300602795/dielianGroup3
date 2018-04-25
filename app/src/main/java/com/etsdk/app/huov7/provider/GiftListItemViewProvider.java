@@ -20,6 +20,7 @@ import com.etsdk.app.huov7.model.UserInfoResultBean;
 import com.etsdk.app.huov7.ui.BindPhoneActivity;
 import com.etsdk.app.huov7.ui.GiftDetailActivity;
 import com.etsdk.app.huov7.ui.dialog.DialogGiftUtil;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.app.huov7.util.StringUtils;
 import com.game.sdk.domain.BaseRequestBean;
 import com.game.sdk.http.HttpCallbackDecode;
@@ -94,8 +95,7 @@ public class GiftListItemViewProvider
             e.printStackTrace();
             holder.tvGiftEndTime.setText("过期时间:");
         }
-//        GlideDisplay.display(holder.ivGiftImage, giftListItem.getIcon(), R.mipmap.ic_launcher);
-        Glide.with(holder.context).load(giftListItem.getIcon()).placeholder(R.mipmap.ic_launcher).into(holder.ivGiftImage);
+        ImgUtil.setImg(holder.context, giftListItem.getIcon(), R.mipmap.ic_launcher, holder.ivGiftImage);
         if (!TextUtils.isEmpty(giftListItem.getGiftcode())) {
             holder.tvApply.setText("复制");
         } else {

@@ -27,6 +27,7 @@ import com.etsdk.app.huov7.ui.WebViewActivity;
 import com.etsdk.app.huov7.ui.dialog.DownAddressSelectDialogUtil;
 import com.etsdk.app.huov7.ui.dialog.DownloadingDeleteDialog;
 import com.etsdk.app.huov7.ui.dialog.Open4gDownHintDialog;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.game.sdk.http.HttpCallbackDecode;
 import com.game.sdk.http.HttpParamsBuild;
 import com.game.sdk.util.GsonUtil;
@@ -111,8 +112,7 @@ public class NewDownloadingGameView extends BaseDownView {
                 + BaseFileUtil.formatFileSize(TasksManager.getImpl().getTotal(tasksManagerModel.getId())));
         TasksManager.getImpl().addDownloadListenerById(tasksManagerModel.getGameId(), this);
         tvGameName.setText(tasksManagerModel.getGameName());
-//        GlideDisplay.display(ivGameImg,tasksManagerModel.getGameIcon(),R.mipmap.ic_launcher);
-        Glide.with(context).load(tasksManagerModel.getGameIcon()).placeholder(R.mipmap.ic_launcher).into(ivGameImg);
+        ImgUtil.setImg(context, tasksManagerModel.getGameIcon(), R.mipmap.ic_launcher, ivGameImg);
     }
 
     @OnClick({R.id.ll_down_option, R.id.iv_delete})

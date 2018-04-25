@@ -20,8 +20,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
-            android:src="@mipmap/group_logo"
-            />
+            android:src="@mipmap/group_logo" />
 
         <TextView
             android:id="@+id/name_tv"
@@ -47,23 +46,39 @@
         android:layout_height="0.5dp"
         android:background="@color/aile_line_gray" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swrefresh"
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </android.support.v4.widget.SwipeRefreshLayout>
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/nodate_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/version_update" />
+
+            <TextView
+                android:id="@+id/nodate_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="没有数据"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/chat_tv"

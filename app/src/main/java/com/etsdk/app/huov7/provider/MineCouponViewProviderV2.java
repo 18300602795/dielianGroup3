@@ -15,6 +15,7 @@ import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.CouponListItemV2;
 import com.etsdk.app.huov7.ui.GameDetailV2Activity;
 import com.etsdk.app.huov7.ui.GamePayActivity;
+import com.etsdk.app.huov7.util.ImgUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,8 +51,7 @@ public class MineCouponViewProviderV2
                 GameDetailV2Activity.start(v.getContext(), mineCoupon.getGameid());
             }
         });
-//        GlideDisplay.display(holder.ivIcon, mineCoupon.getIcon(), R.mipmap.ic_bg_coupon);
-        Glide.with(holder.context).load(mineCoupon.getIcon()).placeholder(R.mipmap.ic_launcher).into(holder.ivIcon);
+        ImgUtil.setImg(holder.context, mineCoupon.getIcon(), R.mipmap.ic_launcher, holder.ivIcon);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder{

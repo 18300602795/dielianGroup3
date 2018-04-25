@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +20,6 @@ import android.widget.Toast;
 
 import com.etsdk.app.huov7.BuildConfig;
 import com.etsdk.app.huov7.R;
-import com.etsdk.app.huov7.base.AileApplication;
 import com.etsdk.app.huov7.base.ImmerseActivity;
 import com.etsdk.app.huov7.http.AppApi;
 import com.etsdk.app.huov7.model.LoginRequestBean;
@@ -36,11 +34,6 @@ import com.game.sdk.domain.UserInfo;
 import com.game.sdk.http.HttpCallbackDecode;
 import com.game.sdk.http.HttpParamsBuild;
 import com.game.sdk.util.GsonUtil;
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMCursorResult;
-import com.hyphenate.chat.EMGroupInfo;
-import com.hyphenate.exceptions.HyphenateException;
 import com.kymjs.rxvolley.RxVolley;
 import com.liang530.control.LoginControl;
 import com.liang530.log.L;
@@ -177,9 +170,6 @@ public class LoginActivityV1 extends ImmerseActivity implements PlatformActionLi
                         return;
                     }
                     LoginControl.saveToken(data.getUser_token());
-                    login(account, "123456");
-//                    T.s(mActivity, "登陆成功");
-                    //接口回调通知
                     //保存账号到数据库
                     if (huoSdkCbRecord.isChecked()) {
                         //找到了先删除后保存
@@ -194,6 +184,7 @@ public class LoginActivityV1 extends ImmerseActivity implements PlatformActionLi
                             UserLoginInfodao.getInstance(mActivity).saveUserLoginInfo(account, "");
                         }
                     }
+                    finish();
 //                    MainActivity.start(mActivity, 4);
                 }
             }
@@ -202,43 +193,10 @@ public class LoginActivityV1 extends ImmerseActivity implements PlatformActionLi
         httpCallbackDecode.setLoadingCancel(false);
         httpCallbackDecode.setShowLoading(false);
 //        httpCallbackDecode.setLoadMsg("正在登录...");
-        dialog.show(mContext, "正在登录...");
+//        dialog.show(mContext, "正在登录...");
         RxVolley.post(AppApi.getUrl(AppApi.loginApi), httpParamsBuild.getHttpParams(), httpCallbackDecode);
     }
 
-    private void login(final String userName, String password) {
-        EMClient.getInstance().login(userName, password, new EMCallBack() {//回调
-            @Override
-            public void onSuccess() {
-                Log.i("333", "username：" + userName);
-                EMClient.getInstance().groupManager().loadAllGroups();
-                EMClient.getInstance().chatManager().loadAllConversations();
-                Log.d("333", "登录聊天服务器成功！");
-                try {
-                    EMCursorResult<EMGroupInfo> result = EMClient.getInstance().groupManager().getPublicGroupsFromServer(10, null);//需异步处理
-                    List<EMGroupInfo> groupsList = result.getData();
-                    String cursor = result.getCursor();
-                    Log.i("333", "id：" + groupsList.get(0).getGroupId());
-                    AileApplication.groupId = groupsList.get(0).getGroupId();
-                    dialog.dismiss();
-                } catch (HyphenateException e) {
-                    e.printStackTrace();
-                }
-                finish();
-            }
-
-            @Override
-            public void onProgress(int progress, String status) {
-
-            }
-
-            @Override
-            public void onError(int code, String message) {
-                dialog.dismiss();
-                Log.d("333", "登录聊天服务器失败！" + "code " + code + " message " + message);
-            }
-        });
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     @OnClick({R.id.tv_titleLeft, R.id.tv_title_right, R.id.huo_sdk_iv_selectAccount, R.id.huo_sdk_img_show_pwd, R.id.btn_submit, R.id.tv_forgetPwd, R.id.iv_qq, R.id.iv_weixin, R.id.iv_weibo})

@@ -18,6 +18,7 @@ import com.etsdk.app.huov7.model.GameDetail;
 import com.etsdk.app.huov7.ui.fragment.DetailDescFragment;
 import com.etsdk.app.huov7.ui.fragment.DetailFuliFragment;
 import com.etsdk.app.huov7.ui.fragment.TestGameListFragment;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.app.huov7.view.GameDetailDownView;
 import com.etsdk.app.huov7.view.GameTagView;
 import com.etsdk.app.huov7.view.LoadStatusView;
@@ -159,8 +160,7 @@ public class GameDetailV3Activity extends BaseActivity {
 
     private void setupData(GameBean gameBean) {
         this.gameBean = gameBean;
-//        GlideDisplay.display(ivGameImg, gameBean.getIcon(), R.mipmap.ic_launcher);
-        Glide.with(GameDetailV3Activity.this).load(gameBean.getIcon()).placeholder(R.mipmap.icon_load).into(ivGameImg);
+        ImgUtil.setImg(GameDetailV3Activity.this, gameBean.getIcon(), R.mipmap.icon_load, ivGameImg);
         tvGameName.setText(gameBean.getGamename());
         tvGameSize.setText(gameBean.getSize());
         tvGameStatus.setText(gameBean.getOneword());

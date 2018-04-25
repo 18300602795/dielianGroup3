@@ -30,6 +30,7 @@ import com.etsdk.app.huov7.ui.SettingActivity;
 import com.etsdk.app.huov7.ui.WebViewActivity;
 import com.etsdk.app.huov7.ui.dialog.DownAddressSelectDialogUtil;
 import com.etsdk.app.huov7.ui.dialog.Open4gDownHintDialog;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.game.sdk.http.HttpCallbackDecode;
 import com.game.sdk.http.HttpParamsBuild;
 import com.game.sdk.util.GsonUtil;
@@ -134,8 +135,7 @@ public class SearchGameGiftItemView extends BaseDownView {
         TasksManager.getImpl().addDownloadListenerById(gameBean.getGameid(), this);
         tvGameName.setText(gameBean.getGamename());
         tvOneword.setText(gameBean.getOneword());
-//        GlideDisplay.display(ivGameImg, gameBean.getIcon(), R.mipmap.ic_launcher);
-        Glide.with(context).load(gameBean.getIcon()).placeholder(R.mipmap.ic_launcher).into(ivGameImg);
+        ImgUtil.setImg(context, gameBean.getIcon(), R.mipmap.ic_launcher, ivGameImg);
         gameTagView.setGameType(gameBean.getType());
 
         //来源

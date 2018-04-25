@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.ScoreRankListBean;
+import com.etsdk.app.huov7.util.ImgUtil;
 import com.liang530.utils.BaseAppUtil;
 import com.liang530.views.imageview.roundedimageview.RoundedImageView;
 
@@ -60,8 +61,7 @@ public class ScoreRankAdapter extends RecyclerView.Adapter {
         ScoreRankListBean.ScoreRankBean scoreRankBean = datas.get(position);
         viewHolder.tvNickName.setText(scoreRankBean.getNicename());
         viewHolder.tvScoreNum.setText(scoreRankBean.getIntegral());
-//        GlideDisplay.display(viewHolder.ivMineHead, scoreRankBean.getPortrait(), R.mipmap.ic_launcher);
-        Glide.with(viewHolder.context).load(scoreRankBean.getPortrait()).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivMineHead);
+        ImgUtil.setImg(viewHolder.context, scoreRankBean.getPortrait(), R.mipmap.ic_launcher, viewHolder.ivMineHead);
     }
 
     private String getRank(int position) {
