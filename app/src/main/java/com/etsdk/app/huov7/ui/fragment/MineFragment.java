@@ -248,8 +248,8 @@ public class MineFragment extends AutoLazyFragment {
                 public void ok() {
                     Intent intent = new Intent(getContext(), UpdateVersionService.class);
                     intent.putExtra("url", updateInfo.getUrl());
-                    context.startService(intent);
-                    T.s(context, "开始下载,请在下载完成后确认安装！");
+                    getContext().startService(intent);
+                    T.s(getContext(), "开始下载,请在下载完成后确认安装！");
                     if (!showCancel) {//是强更则关闭界面
                         ((Activity) getContext()).finish();
                     }
@@ -260,7 +260,7 @@ public class MineFragment extends AutoLazyFragment {
                 }
             });
         } else {
-            T.s(context, "当前已为最新版本");
+            T.s(getContext(), "当前已为最新版本");
         }
     }
 

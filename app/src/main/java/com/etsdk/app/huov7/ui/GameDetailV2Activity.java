@@ -124,10 +124,10 @@ public class GameDetailV2Activity extends ImmerseActivity {
             gameId = getIntent().getStringExtra("gameId");
         }
         if (BuildConfig.projectCode == 74) {//显示右边的充值按钮
-            ivPayRound.setVisibility(View.VISIBLE);
+            ivPayRound.setVisibility(View.GONE);
             ivPay.setVisibility(View.GONE);
         } else {//显示中间的充值按钮
-            ivPayRound.setVisibility(View.VISIBLE);
+            ivPayRound.setVisibility(View.GONE);
             ivPay.setVisibility(View.GONE);
         }
         detailDescFragment = new DetailDescFragment();

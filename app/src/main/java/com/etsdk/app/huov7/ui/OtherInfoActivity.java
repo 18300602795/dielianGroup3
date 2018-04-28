@@ -108,7 +108,8 @@ public class OtherInfoActivity extends ImmerseActivity {
                     nodate_ll.setVisibility(View.GONE);
                     memberModel = data;
                     name_tv.setText(memberModel.getNickname());
-                    ImgUtil.setImg(mContext, SdkConstant.BASE_URL + memberModel.getPortrait(), R.drawable.bg_game, group_icon);
+//                    SdkConstant.BASE_URL +
+                    ImgUtil.setImg(mContext, memberModel.getPortrait(), R.drawable.bg_game, group_icon);
                     recyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
                         @Override
                         public void onRefresh() {

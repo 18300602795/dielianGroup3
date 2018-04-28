@@ -13,6 +13,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.util.StringUtils;
+import com.game.sdk.log.L;
 
 
 /**
@@ -68,6 +69,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
                         float scale = (float) vw / (float) resource.getIntrinsicWidth();
                         int vh = Math.round(resource.getIntrinsicHeight() * scale);
                         params.height = vh + imageView.getPaddingTop() + imageView.getPaddingBottom();
+                        L.i("333", "width " + vw);
+                        L.i("333", "height2 " + vh);
                         imageView.setLayoutParams(params);
                         return false;
                     }
