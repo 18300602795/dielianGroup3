@@ -90,7 +90,6 @@ public class MineFragment extends AutoLazyFragment {
     }
 
     public void getUserInfoData() {
-        
         final BaseRequestBean baseRequestBean = new BaseRequestBean();
         HttpParamsBuild httpParamsBuild = new HttpParamsBuild(GsonUtil.getGson().toJson(baseRequestBean));
         HttpNoLoginCallbackDecode httpCallbackDecode = new HttpNoLoginCallbackDecode<UserInfoResultBean>(getActivity(), httpParamsBuild.getAuthkey()) {
