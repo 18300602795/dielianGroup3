@@ -44,18 +44,18 @@ public class ImmerseActivity extends BaseActivity {
         mDensityDpi = dm.densityDpi;
         mWidth = dm.widthPixels;
         mHeight = dm.heightPixels;
-        if(this instanceof StartActivity){//启动页进行重新初始化
-            Intent intent=new Intent(this,HuoSdkService.class);
-            startService(intent);
-            SdkConstant.app_is_normal_restart=1;//正常启动
-            //保持在任务栈最底部,关闭其他activity，被杀后应用根据任务栈回到之前的页面，如果是主页（singleTask 不会被杀），任务栈里还有主页
-            AppManager.getAppManager().finishOtherActivity(this);
-        }else{//
-            if(SdkConstant.app_is_normal_restart!=1){//被杀后启动，重新启动启动页（启动页设置singleTop）
-                Intent intent=new Intent(this,StartActivity.class);
-                startActivity(intent);
-            }
-        }
+//        if(this instanceof StartActivity){//启动页进行重新初始化
+//            Intent intent=new Intent(this,HuoSdkService.class);
+//            startService(intent);
+//            SdkConstant.app_is_normal_restart=1;//正常启动
+//            //保持在任务栈最底部,关闭其他activity，被杀后应用根据任务栈回到之前的页面，如果是主页（singleTask 不会被杀），任务栈里还有主页
+//            AppManager.getAppManager().finishOtherActivity(this);
+//        }else{//
+//            if(SdkConstant.app_is_normal_restart!=1){//被杀后启动，重新启动启动页（启动页设置singleTop）
+//                Intent intent=new Intent(this,StartActivity.class);
+//                startActivity(intent);
+//            }
+//        }
     }
 
     @Override

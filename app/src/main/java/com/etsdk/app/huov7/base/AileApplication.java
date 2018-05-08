@@ -7,6 +7,7 @@ import android.telephony.TelephonyManager;
 import com.etsdk.app.huov7.BuildConfig;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.model.InstallApkRecord;
+import com.etsdk.app.huov7.model.MessageObservable;
 import com.game.sdk.log.L;
 import com.liang530.application.BaseApplication;
 import com.liulishuo.filedownloader.FileDownloader;
@@ -14,10 +15,16 @@ import com.tencent.TIMGroupReceiveMessageOpt;
 import com.tencent.TIMManager;
 import com.tencent.TIMOfflinePushListener;
 import com.tencent.TIMOfflinePushNotification;
+import com.tencent.ilivesdk.ILiveConstants;
+import com.tencent.ilivesdk.ILiveSDK;
+import com.tencent.ilivesdk.core.ILiveLog;
+import com.tencent.livesdk.ILVLiveConfig;
+import com.tencent.livesdk.ILVLiveManager;
 import com.tencent.qalsdk.sdk.MsfSdkUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 
 /**
@@ -45,9 +52,16 @@ public class AileApplication extends BaseApplication {
         FileDownloader.getImpl().setMaxNetworkThreadCount(8);
         imei = getIMEI(this);
         L.i("333", "imei：" + imei);
-//
+
         if (MsfSdkUtils.isMainProcess(this)) {
             L.i("333", "消息监听");
+            ILiveSDK.getInstance().setCaptureMode(ILiveConstants.CAPTURE_MODE_SURFACEVIEW);
+            ILiveLog.setLogLevel(ILiveLog.TILVBLogLevel.DEBUG);
+            ILiveSDK.getInstance().initSdk(this, 1400028096, 11851);
+//            ILiveSDK.getInstance().initSdk(this, 1400083397, 25111);
+            ILVLiveManager.getInstance().init(new ILVLiveConfig()
+                    .setLiveMsgListener(MessageObservable.getInstance()));
+
             TIMManager.getInstance().setOfflinePushListener(new TIMOfflinePushListener() {
                 @Override
                 public void handleNotification(TIMOfflinePushNotification notification) {

@@ -114,46 +114,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- 【必须】消息收发service -->
-        <service
-            android:name="com.tencent.qalsdk.service.QalService"
-            android:exported="true"
-            android:process=":QALSERVICE"></service>
-        <service
-            android:name="com.tencent.qalsdk.service.QalAssistService"
-            android:exported="false"
-            android:process=":QALSERVICE"></service>
-
-        <!-- 【必须】 离线消息广播接收器 -->
-        <receiver
-            android:name="com.tencent.qalsdk.QALBroadcastReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.tencent.qalsdk.broadcast.qal" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="com.tencent.qalsdk.core.NetConnInfoCenter"
-            android:process=":QALSERVICE">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.TIME_SET" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
-            </intent-filter>
-
-            <!-- ImSDK 3.0.2 后添加 -->
-            <intent-filter>
-                <action android:name="com.tencent.qalsdk.service.TASK_REMOVED" />
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name="com.etsdk.app.huov7.ui.StartActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -693,6 +653,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
 
+        <!-- 直播 !-->
+        <activity
+            android:name=".ui.DemoGuest"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
         <service android:name="com.etsdk.app.huov7.service.HuoSdkService" />
         <service android:name="com.etsdk.app.huov7.update.UpdateVersionService" />
 
@@ -826,5 +793,45 @@
             android:screenOrientation="portrait"
             android:theme="@style/MainActivityStyle"
             android:windowSoftInputMode="adjustResize" />
+
+        <!--&lt;!&ndash; 【必须】消息收发service &ndash;&gt;-->
+        <!--<service-->
+            <!--android:name="com.tencent.qalsdk.service.QalService"-->
+            <!--android:exported="true"-->
+            <!--android:process=":QALSERVICE"></service>-->
+        <!--<service-->
+            <!--android:name="com.tencent.qalsdk.service.QalAssistService"-->
+            <!--android:exported="false"-->
+            <!--android:process=":QALSERVICE"></service>-->
+
+        <!--&lt;!&ndash; 【必须】 离线消息广播接收器 &ndash;&gt;-->
+        <!--<receiver-->
+            <!--android:name="com.tencent.qalsdk.QALBroadcastReceiver"-->
+            <!--android:exported="false">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.tencent.qalsdk.broadcast.qal" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
+        <!--<receiver-->
+            <!--android:name="com.tencent.qalsdk.core.NetConnInfoCenter"-->
+            <!--android:process=":QALSERVICE">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
+            <!--</intent-filter>-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />-->
+            <!--</intent-filter>-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.TIME_SET" />-->
+            <!--</intent-filter>-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.TIMEZONE_CHANGED" />-->
+            <!--</intent-filter>-->
+
+            <!--&lt;!&ndash; ImSDK 3.0.2 后添加 &ndash;&gt;-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.tencent.qalsdk.service.TASK_REMOVED" />-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
     </application>
 </manifest>

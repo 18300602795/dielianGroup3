@@ -47,7 +47,6 @@ public class HomeFragment2 extends AutoLazyFragment {
     @BindView(R.id.appbar)
     AppBarLayout appbar;
 
-
     private ViewPagerAdapter pagerAdapter;
     private List<AdImage> imgs;
     private List<View> mDots = new ArrayList<>();// 存放圆点视图的集合

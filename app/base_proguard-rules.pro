@@ -23,6 +23,7 @@
 
 -keep class qalsdk.**{*;}
 -dontwarn qalsdk.**
+
 -dontwarn
 -dontoptimize
 -ignorewarnings						# 忽略警告，避免打包时某些警告出现

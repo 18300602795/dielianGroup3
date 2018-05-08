@@ -22,5 +22,9 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.tencent.ilivesdk:ilivesdk:1.8.5.0.2'
+    compile 'com.tencent.livesdk:livesdk:1.1.4'
+    compile 'com.tencent.ilivefilter:liteav_pitu:1.1.21'
     compile project(':sdk')
+
 }

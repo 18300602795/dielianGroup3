@@ -10,6 +10,14 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    packagingOptions {
+        exclude 'assets/xgwifi.xml' // will not include NOTICE file
+        exclude 'assets/soconfig.cfg'
+        exclude 'assets/jni.ini'
+        exclude 'com/qq/jce/wup/wup.properties'
+        exclude 'src/com/qq/jce/wup/wup.properties'
+    }
+
     buildTypes {
         release {
             minifyEnabled false

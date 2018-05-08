@@ -17,9 +17,12 @@ import com.etsdk.app.huov7.base.AutoLazyFragment;
 import com.etsdk.app.huov7.chat.utils.PushUtil;
 import com.etsdk.app.huov7.http.AppApi;
 import com.etsdk.app.huov7.model.StartupResultBean;
+import com.etsdk.app.huov7.model.StatusObservable;
+import com.etsdk.app.huov7.model.UserInfo;
 import com.etsdk.app.huov7.model.UserInfoResultBean;
 import com.etsdk.app.huov7.ui.AccountManageActivity;
 import com.etsdk.app.huov7.ui.ArticleActivity;
+import com.etsdk.app.huov7.ui.DemoGuest;
 import com.etsdk.app.huov7.ui.DownloadManagerActivity;
 import com.etsdk.app.huov7.ui.LoginActivity;
 import com.etsdk.app.huov7.ui.MineGiftCouponListActivityNew;
@@ -39,6 +42,8 @@ import com.tencent.TIMFriendshipManager;
 import com.tencent.TIMGroupManager;
 import com.tencent.TIMManager;
 import com.tencent.TIMUser;
+import com.tencent.ilivesdk.ILiveCallBack;
+import com.tencent.ilivesdk.core.ILiveLoginManager;
 import com.tencent.qcloud.presentation.event.MessageEvent;
 import com.tencent.qcloud.sdk.Constant;
 import com.tencent.qcloud.tlslibrary.service.TLSService;
@@ -102,7 +107,7 @@ public class MineFragment extends AutoLazyFragment {
                     nick_tv.setText(data.getNickname());
                     GlideDisplay.display(iv_mineHead, data.getPortrait(), R.drawable.bg_game);
                     if (!AileApplication.isLogin) {
-                        login(data, false);
+                        login(false, data);
                     }
                 } else {
                     info_ll.setVisibility(View.GONE);
@@ -120,7 +125,7 @@ public class MineFragment extends AutoLazyFragment {
         RxVolley.post(AppApi.getUrl(AppApi.userDetailApi2), httpParamsBuild.getHttpParams(), httpCallbackDecode);
     }
 
-    @OnClick({R.id.account_ll, R.id.video_ll, R.id.gift_ll, R.id.game_ll, R.id.post_ll, R.id.update_ll})
+    @OnClick({R.id.account_ll, R.id.video_ll, R.id.gift_ll, R.id.game_ll, R.id.post_ll, R.id.tv_ll, R.id.update_ll})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.account_ll:
@@ -143,6 +148,9 @@ public class MineFragment extends AutoLazyFragment {
             case R.id.post_ll:
                 ArticleActivity.start(getContext());
                 break;
+            case R.id.tv_ll:
+                startActivity(new Intent(getActivity(), DemoGuest.class));
+                break;
             case R.id.update_ll:
                 handleUpdate();
                 break;
@@ -151,61 +159,75 @@ public class MineFragment extends AutoLazyFragment {
     }
 
     private void register(final UserInfoResultBean data) {
-        final TLSService tlsService = TLSService.getInstance();
-        int result = tlsService.TLSStrAccReg("fx" + data.getUsername(), "00112233", new TLSStrAccRegListener() {
+        ILiveLoginManager.getInstance().tlsRegister("fx" + data.getUsername(), "00112233", new ILiveCallBack() {
             @Override
-            public void OnStrAccRegSuccess(TLSUserInfo tlsUserInfo) {
-                login(data, true);
+            public void onSuccess(Object obj) {
                 L.i("333", "注册成功");
+                login(true, data);
             }
 
             @Override
-            public void OnStrAccRegFail(TLSErrInfo tlsErrInfo) {
-                L.i("333", "注册失败1");
-            }
-
-            @Override
-            public void OnStrAccRegTimeout(TLSErrInfo tlsErrInfo) {
-                L.i("333", "注册失败2");
+            public void onError(String module, int errCode, String errMsg) {
+                L.i("333", "Regist failed:" + module + "|" + errCode + "|" + errMsg);
             }
         });
-        L.i("333", "帐号不合法： " + result);
-        if (result == TLSErrInfo.INPUT_INVALID) {
-            L.i("333", "帐号不合法");
-        }
+//        final TLSService tlsService = TLSService.getInstance();
+//        int result = tlsService.TLSStrAccReg("fx" + data.getUsername(), "00112233", new TLSStrAccRegListener() {
+//            @Override
+//            public void OnStrAccRegSuccess(TLSUserInfo tlsUserInfo) {
+//                login(data, true);
+//                L.i("333", "注册成功");
+//            }
+//
+//            @Override
+//            public void OnStrAccRegFail(TLSErrInfo tlsErrInfo) {
+//                L.i("333", "注册失败1");
+//            }
+//
+//            @Override
+//            public void OnStrAccRegTimeout(TLSErrInfo tlsErrInfo) {
+//                L.i("333", "注册失败2");
+//            }
+//        });
+//        L.i("333", "帐号不合法： " + result);
+//        if (result == TLSErrInfo.INPUT_INVALID) {
+//            L.i("333", "帐号不合法");
+//        }
     }
 
-    private void login(final UserInfoResultBean data, final boolean isRegister) {
-        final TLSService tlsService = TLSService.getInstance();
-        tlsService.TLSPwdLogin("fx" + data.getUsername(), "00112233", new TLSPwdLoginListener() {
-            @Override
-            public void OnPwdLoginSuccess(TLSUserInfo tlsUserInfo) {
-                loginIM(tlsUserInfo, isRegister, data);
-            }
+    private void login(final boolean isRegister, final UserInfoResultBean data) {
+        loginIM(isRegister, data);
+//        final TLSService tlsService = TLSService.getInstance();
+//        tlsService.TLSPwdLogin("fx" + data.getUsername(), "00112233", new TLSPwdLoginListener() {
+//            @Override
+//            public void OnPwdLoginSuccess(TLSUserInfo tlsUserInfo) {
+//                loginIM(tlsUserInfo, isRegister, data);
+//            }
+//
+//            @Override
+//            public void OnPwdLoginReaskImgcodeSuccess(byte[] bytes) {
+//                L.i("333", "登录失败1");
+//            }
+//
+//            @Override
+//            public void OnPwdLoginNeedImgcode(byte[] bytes, TLSErrInfo tlsErrInfo) {
+//                L.i("333", "登录失败2：" + tlsErrInfo.ErrCode + "msg：" + tlsErrInfo.Msg);
+//            }
+//
+//            @Override
+//            public void OnPwdLoginFail(TLSErrInfo tlsErrInfo) {
+//                L.i("333", "登录失败3：" + tlsErrInfo.ErrCode + "msg：" + tlsErrInfo.Msg);
+//                if (tlsErrInfo.ErrCode == 229) {
+//                    register(data);
+//                }
+//            }
+//
+//            @Override
+//            public void OnPwdLoginTimeout(TLSErrInfo tlsErrInfo) {
+//                L.i("333", "登录失败4：" + tlsErrInfo.ErrCode + "msg：" + tlsErrInfo.Msg);
+//            }
+//        });
 
-            @Override
-            public void OnPwdLoginReaskImgcodeSuccess(byte[] bytes) {
-                L.i("333", "登录失败1");
-            }
-
-            @Override
-            public void OnPwdLoginNeedImgcode(byte[] bytes, TLSErrInfo tlsErrInfo) {
-                L.i("333", "登录失败2：" + tlsErrInfo.ErrCode + "msg：" + tlsErrInfo.Msg);
-            }
-
-            @Override
-            public void OnPwdLoginFail(TLSErrInfo tlsErrInfo) {
-                L.i("333", "登录失败3：" + tlsErrInfo.ErrCode + "msg：" + tlsErrInfo.Msg);
-                if (tlsErrInfo.ErrCode == 229) {
-                    register(data);
-                }
-            }
-
-            @Override
-            public void OnPwdLoginTimeout(TLSErrInfo tlsErrInfo) {
-                L.i("333", "登录失败4：" + tlsErrInfo.ErrCode + "msg：" + tlsErrInfo.Msg);
-            }
-        });
     }
 
     private void setPhoto(final String faceUrl) {
@@ -280,44 +302,75 @@ public class MineFragment extends AutoLazyFragment {
         });
     }
 
-    private void loginIM(final TLSUserInfo tlsUserInfo, final boolean isRegister, final UserInfoResultBean data) {
-        TLSHelper helper = TLSHelper.getInstance();
-        String usersig = helper.getUserSig(tlsUserInfo.identifier);
-        L.i("333", "登录成功：usersig：" + usersig);
-        TLSService.getInstance().setLastErrno(0);
-        TIMUser user = new TIMUser();
-        user.setAccountType(String.valueOf(Constant.ACCOUNT_TYPE));
-        user.setAppIdAt3rd(String.valueOf(Constant.SDK_APPID));
-        user.setIdentifier(tlsUserInfo.identifier);
-        //发起登录请求
-        TIMManager.getInstance().login(
-                Constant.SDK_APPID,
-                user,
-                TLSService.getInstance().getUserSig(tlsUserInfo.identifier),                    //用户帐号签名，由私钥加密获得，具体请参考文档
-                new TIMCallBack() {
-                    @Override
-                    public void onError(int i, String s) {
-                        AileApplication.isLogin = false;
-                    }
+    private void loginIM(final boolean isRegister, final UserInfoResultBean data) {
+//        L.i("333", "开始登录");
+        ILiveLoginManager.getInstance().tlsLoginAll("fx" + data.getUsername(), "00112233", new ILiveCallBack() {
+            @Override
+            public void onSuccess(Object obj) {
+                L.i("333", "登录成功");
+                //初始化程序后台后消息推送
+                PushUtil.getInstance();
+                //初始化消息监听
+                MessageEvent.getInstance();
+                AileApplication.isLogin = true;
+                if (isRegister) {
+                    setNick(data.getNickname());
+                    setPhoto(data.getPortrait());
+                } else {
+                    AileApplication.faceUrl = data.getPortrait();
+                }
+                afterLogin();
+                applyGroup();
+                L.i("333", "登录成功：" + obj);
+//                afterLogin();
+            }
 
-                    @Override
-                    public void onSuccess() {
-                        //初始化程序后台后消息推送
-                        PushUtil.getInstance();
-                        //初始化消息监听
-                        MessageEvent.getInstance();
-                        AileApplication.isLogin = true;
-                        if (isRegister) {
-                            setNick(data.getNickname());
-                            setPhoto(data.getPortrait());
-                        } else {
-                            AileApplication.faceUrl = data.getPortrait();
-                        }
-                        applyGroup();
-                        L.i("333", "登录成功：" + tlsUserInfo.identifier);
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
+                L.i("333", "登录失败：" + "Login failed:" + module + "|" + errCode + "|" + errMsg);
+                if (errCode == 229) {
+                    register(data);
+                }
+            }
+        });
 
-                    }
-                });
+//        TLSHelper helper = TLSHelper.getInstance();
+//        String usersig = helper.getUserSig(tlsUserInfo.identifier);
+//        L.i("333", "登录成功：usersig：" + usersig);
+//        TLSService.getInstance().setLastErrno(0);
+//        TIMUser user = new TIMUser();
+//        user.setAccountType(String.valueOf(Constant.ACCOUNT_TYPE));
+//        user.setAppIdAt3rd(String.valueOf(Constant.SDK_APPID));
+//        user.setIdentifier(tlsUserInfo.identifier);
+//        //发起登录请求
+//        TIMManager.getInstance().login(
+//                Constant.SDK_APPID,
+//                user,
+//                TLSService.getInstance().getUserSig(tlsUserInfo.identifier),                    //用户帐号签名，由私钥加密获得，具体请参考文档
+//                new TIMCallBack() {
+//                    @Override
+//                    public void onError(int i, String s) {
+//                        AileApplication.isLogin = false;
+//                    }
+//
+//                    @Override
+//                    public void onSuccess() {
+//                        //初始化程序后台后消息推送
+//                        PushUtil.getInstance();
+//                        //初始化消息监听
+//                        MessageEvent.getInstance();
+//                        AileApplication.isLogin = true;
+//                        if (isRegister) {
+//                            setNick(data.getNickname());
+//                            setPhoto(data.getPortrait());
+//                        } else {
+//                            AileApplication.faceUrl = data.getPortrait();
+//                        }
+//                        applyGroup();
+//                        L.i("333", "登录成功：" + tlsUserInfo.identifier);
+//
+//                    }
+//                });
     }
 
     private void applyGroup() {
@@ -332,6 +385,13 @@ public class MineFragment extends AutoLazyFragment {
                 L.i("333", "加群成功：");
             }
         });
+    }
+
+
+    // 登录成功
+    private void afterLogin() {
+        ILiveLoginManager.getInstance().setUserStatusListener(StatusObservable.getInstance());
+        UserInfo.getInstance().writeToCache(getApplicationContext());
     }
 
 

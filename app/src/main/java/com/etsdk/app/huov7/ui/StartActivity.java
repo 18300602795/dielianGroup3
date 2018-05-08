@@ -6,18 +6,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.base.ImmerseActivity;
 import com.etsdk.app.huov7.service.HuoSdkService;
+import com.game.sdk.log.L;
 import com.jaeger.library.StatusBarUtil;
 import com.jude.swipbackhelper.SwipeBackHelper;
 import com.liang530.application.BaseApplication;
 import com.liang530.log.SP;
 import com.liang530.utils.BaseAppUtil;
+import com.tencent.TIMCallBack;
+import com.tencent.TIMGroupManager;
 import com.tencent.TIMLogLevel;
+import com.tencent.ilivesdk.ILiveCallBack;
+import com.tencent.ilivesdk.core.ILiveLoginManager;
 import com.tencent.qcloud.presentation.business.InitBusiness;
 import com.tencent.qcloud.presentation.event.FriendshipEvent;
 import com.tencent.qcloud.presentation.event.GroupEvent;
@@ -28,6 +34,8 @@ import com.xiaomi.mipush.sdk.MiPushClient;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.R.attr.data;
 
 public class StartActivity extends ImmerseActivity {
 
@@ -43,8 +51,8 @@ public class StartActivity extends ImmerseActivity {
         setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
         init();
-        setupUI();
         clearNotification();
+        setupUI();
         SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(false);
     }
 
@@ -60,6 +68,8 @@ public class StartActivity extends ImmerseActivity {
 //        FriendshipEvent.getInstance().init();
         GroupEvent.getInstance().init();
     }
+
+
 
     @Override
     protected void setStatusBar() {
@@ -113,5 +123,4 @@ public class StartActivity extends ImmerseActivity {
         notificationManager.cancelAll();
         MiPushClient.clearNotification(getApplicationContext());
     }
-
 }

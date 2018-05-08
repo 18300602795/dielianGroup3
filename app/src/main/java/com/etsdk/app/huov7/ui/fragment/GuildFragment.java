@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.adapter.GuildAdapter;
+import com.etsdk.app.huov7.adapter.GuildAdapter2;
 import com.etsdk.app.huov7.base.AutoLazyFragment;
 import com.etsdk.app.huov7.http.AppApi;
 import com.etsdk.app.huov7.model.GameBean;
@@ -41,7 +42,7 @@ public class GuildFragment extends AutoLazyFragment {
     private int hot = 0;
     private int category = 3;   //INT	是否单机 2 网游 1 GM 3 BT 4 折扣 5 精品 0 所有 20170113新增
     private String type;//分类id
-    private GuildAdapter adapter;
+    private GuildAdapter2 adapter;
     int currentPage = 1;
     HunterHeaderView headerView;
     private HeaderAndFooterWrapper headerAndFooterWrapper;
@@ -56,7 +57,7 @@ public class GuildFragment extends AutoLazyFragment {
 
     private void setupUI() {
         fragment_recycle.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        adapter = new GuildAdapter(new ArrayList<GameBean>(), getActivity());
+        adapter = new GuildAdapter2(new ArrayList<GameBean>(), getActivity());
         headerView = new HunterHeaderView(getActivity());
         headerAndFooterWrapper = new HeaderAndFooterWrapper(adapter);
         headerAndFooterWrapper.addHeaderView(headerView);

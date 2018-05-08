@@ -128,4 +128,5 @@
     <!--标题栏颜色（主题色）-->
     <color name="bg_theme">#6dc9d0</color>
 
+    <color name="colorGray">#CDCDCD</color>
 </resources>

@@ -3,6 +3,7 @@ package com.etsdk.app.huov7.ui;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ import com.etsdk.app.huov7.chat.utils.PushUtil;
 import com.etsdk.app.huov7.chat.utils.TimeUtil;
 import com.etsdk.app.huov7.http.AppApi;
 import com.etsdk.app.huov7.model.StartupResultBean;
+import com.etsdk.app.huov7.model.StatusObservable;
 import com.etsdk.app.huov7.model.UserInfoResultBean;
 import com.etsdk.app.huov7.ui.fragment.ChatFragment;
 import com.etsdk.app.huov7.ui.fragment.HomeFragment2;
@@ -54,19 +56,26 @@ import com.tencent.TIMConversationType;
 import com.tencent.TIMFriendshipManager;
 import com.tencent.TIMGroupCacheInfo;
 import com.tencent.TIMGroupManager;
+import com.tencent.TIMLogLevel;
 import com.tencent.TIMManager;
 import com.tencent.TIMMessage;
 import com.tencent.TIMUser;
 import com.tencent.TIMUserProfile;
 import com.tencent.TIMUserStatusListener;
 import com.tencent.TIMValueCallBack;
+import com.tencent.ilivesdk.ILiveCallBack;
+import com.tencent.ilivesdk.core.ILiveLoginManager;
+import com.tencent.qcloud.presentation.business.InitBusiness;
+import com.tencent.qcloud.presentation.event.GroupEvent;
 import com.tencent.qcloud.presentation.event.MessageEvent;
+import com.tencent.qcloud.presentation.event.RefreshEvent;
 import com.tencent.qcloud.presentation.presenter.ConversationPresenter;
 import com.tencent.qcloud.presentation.viewfeatures.ConversationView;
 import com.tencent.qcloud.sdk.Constant;
 import com.tencent.qcloud.tlslibrary.service.TLSService;
 import com.tencent.qcloud.tlslibrary.service.TlsBusiness;
 import com.tencent.qcloud.ui.NotifyDialog;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -210,6 +219,8 @@ public class MainActivity2 extends ImmerseActivity {
         presenter.getConversation();
     }
 
+
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -318,34 +329,6 @@ public class MainActivity2 extends ImmerseActivity {
 
             }
         });
-//        sticky.setStickyCallBack(new StickyNavLayout.StickyCallBack() {
-//            @Override
-//            public void move(int dy) {
-//                if (dy > (StringUtils.dip2px(mContext, 100))) {
-//                    dy = (StringUtils.dip2px(mContext, 100));
-//                }
-//                float scale;
-//                if (dy != 0) {
-//                    scale = (float) ((StringUtils.dip2px(mContext, 100)) - dy / 4) / (float) (StringUtils.dip2px(mContext, 100));
-//                } else {
-//                    scale = 1;
-//                }
-//                WindowManager wm = (WindowManager) mContext
-//                        .getSystemService(Context.WINDOW_SERVICE);
-//                int width = wm.getDefaultDisplay().getWidth();
-//                float icon_width = ((float) dy / StringUtils.dip2px(mContext, 100)) * (width / 2 - StringUtils.dip2px(mContext, 40));
-//                ObjectAnimator.ofFloat(group_icon, "scaleX", scale).setDuration(0).start();
-//                ObjectAnimator.ofFloat(group_icon, "scaleY", scale).setDuration(0).start();
-//                ObjectAnimator.ofFloat(group_icon, "translationY", dy / 4 * 3).setDuration(0).start();
-//                ObjectAnimator.ofFloat(group_icon, "translationX", -icon_width).setDuration(0).start();
-//                float name_width = ((float) dy / StringUtils.dip2px(mContext, 100)) * (width / 2 - StringUtils.dip2px(mContext, 110));
-//                ObjectAnimator.ofFloat(group_name, "translationY", dy / 8).setDuration(0).start();
-//                ObjectAnimator.ofFloat(group_name, "translationX", -name_width).setDuration(0).start();
-//                float introduce_width = ((float) dy / StringUtils.dip2px(mContext, 100)) * (width / 2 - StringUtils.dip2px(mContext, 160));
-//                ObjectAnimator.ofFloat(group_introduce, "translationY", dy / 8).setDuration(0).start();
-//                ObjectAnimator.ofFloat(group_introduce, "translationX", -introduce_width).setDuration(0).start();
-//            }
-//        });
     }
 
     @OnClick({R.id.group_ll, R.id.event_ll, R.id.chat_ll, R.id.house_ll, R.id.mine_ll})
@@ -468,35 +451,62 @@ public class MainActivity2 extends ImmerseActivity {
     }
 
     private void loginIM(final UserInfoResultBean data) {
-        String id = TLSService.getInstance().getLastUserIdentifier();
-        //发起登录请求
-        TIMUser user = new TIMUser();
-        user.setAccountType(String.valueOf(Constant.ACCOUNT_TYPE));
-        user.setAppIdAt3rd(String.valueOf(Constant.SDK_APPID));
-        user.setIdentifier(id);
+//        String id = TLSService.getInstance().getLastUserIdentifier();
+//        //发起登录请求
+//        TIMUser user = new TIMUser();
+//        user.setAccountType(String.valueOf(Constant.ACCOUNT_TYPE));
+//        user.setAppIdAt3rd(String.valueOf(Constant.SDK_APPID));
+//        user.setIdentifier(id);
+//
+//        TIMManager.getInstance().login(
+//                Constant.SDK_APPID,
+//                user,
+//                TLSService.getInstance().getUserSig(id),                    //用户帐号签名，由私钥加密获得，具体请参考文档
+//                new TIMCallBack() {
+//                    @Override
+//                    public void onError(int i, String s) {
+//                        AileApplication.isLogin = false;
+//                        L.i("333", "登录失败：" + s);
+//                    }
+//
+//                    @Override
+//                    public void onSuccess() {
+//                        //初始化程序后台后消息推送
+//                        PushUtil.getInstance();
+//                        //初始化消息监听
+//                        MessageEvent.getInstance();
+//                        AileApplication.faceUrl = data.getPortrait();
+//                        AileApplication.isLogin = true;
+//                        L.i("333", "登录成功：");
+//                        applyGroup();
+//                    }
+//                });
+        ILiveLoginManager.getInstance().tlsLoginAll("fx" + data.getUsername(), "00112233", new ILiveCallBack() {
+            @Override
+            public void onSuccess(Object obj) {
+                PushUtil.getInstance();
+                //初始化消息监听
+                MessageEvent.getInstance();
+                AileApplication.faceUrl = data.getPortrait();
+                AileApplication.isLogin = true;
+                L.i("333", "登录成功：");
+                afterLogin();
+                applyGroup();
+            }
 
-        TIMManager.getInstance().login(
-                Constant.SDK_APPID,
-                user,
-                TLSService.getInstance().getUserSig(id),                    //用户帐号签名，由私钥加密获得，具体请参考文档
-                new TIMCallBack() {
-                    @Override
-                    public void onError(int i, String s) {
-                        AileApplication.isLogin = false;
-                    }
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
+                AileApplication.isLogin = false;
+                L.i("333", "Login failed:" + module + "|" + errCode + "|" + errMsg);
+            }
+        });
+    }
 
-                    @Override
-                    public void onSuccess() {
-                        //初始化程序后台后消息推送
-                        PushUtil.getInstance();
-                        //初始化消息监听
-                        MessageEvent.getInstance();
-                        AileApplication.faceUrl = data.getPortrait();
-                        AileApplication.isLogin = true;
-                        L.i("333", "登录成功：");
-                        applyGroup();
-                    }
-                });
+
+    // 登录成功
+    private void afterLogin() {
+        ILiveLoginManager.getInstance().setUserStatusListener(StatusObservable.getInstance());
+        com.etsdk.app.huov7.model.UserInfo.getInstance().writeToCache(getApplicationContext());
     }
 
     private void applyGroup() {
