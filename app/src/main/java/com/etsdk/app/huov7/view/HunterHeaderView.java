@@ -1,6 +1,7 @@
 package com.etsdk.app.huov7.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.os.Message;
@@ -18,10 +19,23 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.etsdk.app.huov7.R;
+import com.etsdk.app.huov7.iLive.model.CurLiveInfo;
+import com.etsdk.app.huov7.iLive.model.MySelfInfo;
+import com.etsdk.app.huov7.iLive.utils.Constants;
+import com.etsdk.app.huov7.iLive.views.LiveActivity;
 import com.etsdk.app.huov7.model.GameBeanList;
+import com.etsdk.app.huov7.ui.AccountManageActivity;
+import com.etsdk.app.huov7.ui.ArticleActivity;
+import com.etsdk.app.huov7.ui.ChatRoomActivity;
+import com.etsdk.app.huov7.ui.DownloadManagerActivity;
+import com.etsdk.app.huov7.ui.LoginActivity;
+import com.etsdk.app.huov7.ui.MineGiftCouponListActivityNew;
+import com.etsdk.app.huov7.ui.NearbyActivity;
+import com.liang530.log.L;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 /**
@@ -58,6 +72,41 @@ public class HunterHeaderView extends RelativeLayout {
                 game_ll.addView(gameItemView);
             }
 //            game_ll.addView(new MoreItemView(mContext));
+        }
+    }
+
+    @OnClick({R.id.item1, R.id.item2, R.id.item3, R.id.item4, R.id.item5, R.id.item6, R.id.item7, R.id.item8})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.item1:
+                ChatRoomActivity.start(mContext);
+                break;
+            case R.id.item2:
+                NearbyActivity.start(mContext);
+                break;
+            case R.id.item3:
+                break;
+            case R.id.item4:
+                break;
+            case R.id.item5:
+                break;
+            case R.id.item6:
+                break;
+            case R.id.item7:
+                Intent intent = new Intent(mContext, LiveActivity.class);
+                MySelfInfo.getInstance().setIdStatus(Constants.HOST);
+                MySelfInfo.getInstance().setJoinRoomWay(true);
+                L.i("333", "id：" + MySelfInfo.getInstance().getId());
+                L.i("333", "roomNum：" + MySelfInfo.getInstance().getMyRoomNum());
+                CurLiveInfo.setTitle("直播间");
+                CurLiveInfo.setHostID(MySelfInfo.getInstance().getId());
+                CurLiveInfo.setRoomNum(MySelfInfo.getInstance().getMyRoomNum());
+                mContext.startActivity(intent);
+//                startActivity(new Intent(getActivity(), DemoGuest.class));
+                break;
+            case R.id.item8:
+                break;
+
         }
     }
 

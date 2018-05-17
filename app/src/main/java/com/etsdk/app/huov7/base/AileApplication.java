@@ -3,9 +3,11 @@ package com.etsdk.app.huov7.base;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.telephony.TelephonyManager;
+import android.view.View;
 
 import com.etsdk.app.huov7.BuildConfig;
 import com.etsdk.app.huov7.R;
+import com.etsdk.app.huov7.iLive.presenters.MessageEvent;
 import com.etsdk.app.huov7.model.InstallApkRecord;
 import com.etsdk.app.huov7.model.MessageObservable;
 import com.game.sdk.log.L;
@@ -22,7 +24,9 @@ import com.tencent.livesdk.ILVLiveConfig;
 import com.tencent.livesdk.ILVLiveManager;
 import com.tencent.qalsdk.sdk.MsfSdkUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -58,9 +62,13 @@ public class AileApplication extends BaseApplication {
             ILiveSDK.getInstance().setCaptureMode(ILiveConstants.CAPTURE_MODE_SURFACEVIEW);
             ILiveLog.setLogLevel(ILiveLog.TILVBLogLevel.DEBUG);
             ILiveSDK.getInstance().initSdk(this, 1400028096, 11851);
+            // 初始化直播模块
+            ILVLiveConfig liveConfig = new ILVLiveConfig();
+            liveConfig.setLiveMsgListener(MessageEvent.getInstance());
+            ILVLiveManager.getInstance().init(liveConfig);
 //            ILiveSDK.getInstance().initSdk(this, 1400083397, 25111);
-            ILVLiveManager.getInstance().init(new ILVLiveConfig()
-                    .setLiveMsgListener(MessageObservable.getInstance()));
+//            ILVLiveManager.getInstance().init(new ILVLiveConfig()
+//                    .setLiveMsgListener(MessageObservable.getInstance()));
 
             TIMManager.getInstance().setOfflinePushListener(new TIMOfflinePushListener() {
                 @Override

@@ -15,6 +15,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/item1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -32,12 +33,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:text="王者荣耀"
+                    android:text="聊天室"
 
                     android:textSize="12sp" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/item2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -55,13 +57,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:text="绝地求生"
+                    android:text="点点"
 
                     android:textSize="12sp" />
             </LinearLayout>
 
 
             <LinearLayout
+                android:id="@+id/item3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -86,6 +89,7 @@
 
 
             <LinearLayout
+                android:id="@+id/item4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -115,6 +119,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/item5"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -137,6 +142,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/item6"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -161,6 +167,7 @@
 
 
             <LinearLayout
+                android:id="@+id/item7"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -185,6 +192,7 @@
 
 
             <LinearLayout
+                android:id="@+id/item8"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

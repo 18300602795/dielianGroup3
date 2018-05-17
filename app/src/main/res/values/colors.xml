@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="dialog_btn_pressed_color">#efefef</color>
+    <color name="btn_live">#5F6164</color>
+    <color name="btn_live_press">#2F3134</color>
+
+    <color name="colorSendName">#9966cc</color>
+    <color name="colorSendName1">#FF3163</color>
+    <color name="colorSendName2">#973365</color>
+    <color name="colorSendName3">#006599</color>
+    <color name="colorSendName4">#D07E44</color>
+    <color name="colorSendName5">#97BC87</color>
+    <color name="colorSendName6">#FFAE1F</color>
+    <color name="colorSendName7">#FF437D</color>
+    <!--蒙版-->
+    <!--gray1-->
+    <color name="colorGray1">#F0F0F0</color>
+    <!--light gray-->
+    <color name="colorLightGray">#E6E6E6</color>
+    <!--gray2-->
+    <color name="colorGray2">#DCDCDC</color>
+    <!--gray3-->
+    <color name="colorGray3">#C8C8C8</color>
+    <!--gray4-->
+    <color name="colorGray4">#787878</color>
+    <!--gray5-->
+    <color name="colorGray5">#505050</color>
+    <!--gray6-->
+    <color name="colorGray6">#141414</color>
+
     <color name="bg_pressed">#e0e0e0</color>
     <color name="default_bg">#d6d7d7</color>
     <color name="default_red">#e60012</color>

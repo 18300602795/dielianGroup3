@@ -1,5 +1,55 @@
 <resources>
 
+    <style name="Popupwindow">
+        <item name="android:windowEnterAnimation">@anim/window_out</item>
+        <item name="android:windowExitAnimation">@anim/window_back</item>
+    </style>
+
+    <style name="inputdialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">#00000000</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="host_info_dlg" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="report_dlg" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="common_dlg" parent="@android:style/Theme.Holo.Light.Dialog">
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -9,6 +59,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
     </style>
+
     <style name="Theme.AppCompat.Translucent" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -20,12 +71,14 @@
     <style name="GameDetailStyle" parent="Theme.AppCompat.Translucent">
         <item name="android:windowAnimationStyle">@style/AnimationDetalActivity</item>
     </style>
+
     <style name="AnimationActivity" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/push_left_in</item>
         <item name="android:activityOpenExitAnimation">@anim/push_left_out</item>
         <item name="android:activityCloseEnterAnimation">@anim/push_right_in</item>
         <item name="android:activityCloseExitAnimation">@anim/push_right_out</item>
     </style>
+
     <style name="AnimationDetalActivity" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/popup_show</item>
         <item name="android:activityOpenExitAnimation">@anim/popup_hide</item>
@@ -33,7 +86,10 @@
         <item name="android:activityCloseExitAnimation">@anim/popup_hide</item>
     </style>
 
-    <style name="TabLayoutTextStyle"><item name="android:textSize">@dimen/text_title</item></style>
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">@dimen/text_title</item>
+    </style>
+
     <style name="MainActivityStyle" parent="Theme.AppCompat.Translucent">
         <item name="android:windowIsTranslucent">false</item>
     </style>
@@ -52,5 +108,22 @@
         <item name="android:padding">5dp</item>
         <item name="android:clickable">true</item>
         <item name="android:background">@drawable/radio_border</item>
+    </style>
+
+    <style name="live_btn">
+        <item name="android:background">@drawable/btn_live</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:padding">5dp</item>
+    </style>
+
+    <style name="floag_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
     </style>
 </resources>

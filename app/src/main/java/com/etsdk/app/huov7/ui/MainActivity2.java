@@ -30,6 +30,7 @@ import com.etsdk.app.huov7.chat.modle.UserInfo;
 import com.etsdk.app.huov7.chat.utils.PushUtil;
 import com.etsdk.app.huov7.chat.utils.TimeUtil;
 import com.etsdk.app.huov7.http.AppApi;
+import com.etsdk.app.huov7.iLive.model.MySelfInfo;
 import com.etsdk.app.huov7.model.StartupResultBean;
 import com.etsdk.app.huov7.model.StatusObservable;
 import com.etsdk.app.huov7.model.UserInfoResultBean;
@@ -490,6 +491,10 @@ public class MainActivity2 extends ImmerseActivity {
                 AileApplication.faceUrl = data.getPortrait();
                 AileApplication.isLogin = true;
                 L.i("333", "登录成功：");
+                MySelfInfo.getInstance().setId(data.getUsername());
+                MySelfInfo.getInstance().setNickName(data.getNickname());
+                MySelfInfo.getInstance().setAvatar(data.getPortrait());
+                MySelfInfo.getInstance().setMyRoomNum(52639);
                 afterLogin();
                 applyGroup();
             }

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipedeck="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.daprlabs.aaron.swipedeck.SwipeDeck
+        android:id="@+id/nearby"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        swipedeck:max_visible="3"
+        swipedeck:render_above="false"
+        swipedeck:card_spacing="10dp"
+        swipedeck:preview_layout="@layout/item_nearby"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_titleLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:src="@mipmap/return_new_1" />
+
+        <TextView
+            android:id="@+id/tv_titleName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:maxLength="12"
+            android:text="@string/app_name"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_title" />
+
+        <ImageView
+            android:id="@+id/matching_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/mine_iv"
+            android:padding="10dp"
+            android:src="@drawable/ic_like_match_list" />
+
+        <ImageView
+            android:id="@+id/mine_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:padding="10dp"
+            android:src="@drawable/mws_question_back" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/get_iv"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_undo_dislike_disable" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/del_iv"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/match_card_dislike" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/love_iv"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/match_card_like" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/col_iv"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/match_card_superlike_unavailable" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+</RelativeLayout>

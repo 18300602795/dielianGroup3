@@ -1,1 +1,1 @@
-include 'app', ':jcvideoplayer-lib', ':baseadapter-recyclerview', ':multi-image-selector', ':presentation', ':sdk', ':tlslibrary', ':ui'
+include 'app', ':jcvideoplayer-lib', ':baseadapter-recyclerview', ':multi-image-selector', ':presentation', ':sdk', ':tlslibrary', ':ui', ':swipedeck'

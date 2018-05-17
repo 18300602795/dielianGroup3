@@ -16,6 +16,10 @@ import com.etsdk.app.huov7.base.AileApplication;
 import com.etsdk.app.huov7.base.AutoLazyFragment;
 import com.etsdk.app.huov7.chat.utils.PushUtil;
 import com.etsdk.app.huov7.http.AppApi;
+import com.etsdk.app.huov7.iLive.model.CurLiveInfo;
+import com.etsdk.app.huov7.iLive.model.MySelfInfo;
+import com.etsdk.app.huov7.iLive.utils.Constants;
+import com.etsdk.app.huov7.iLive.views.LiveActivity;
 import com.etsdk.app.huov7.model.StartupResultBean;
 import com.etsdk.app.huov7.model.StatusObservable;
 import com.etsdk.app.huov7.model.UserInfo;
@@ -149,7 +153,16 @@ public class MineFragment extends AutoLazyFragment {
                 ArticleActivity.start(getContext());
                 break;
             case R.id.tv_ll:
-                startActivity(new Intent(getActivity(), DemoGuest.class));
+                Intent intent = new Intent(getActivity(), LiveActivity.class);
+                MySelfInfo.getInstance().setIdStatus(Constants.MEMBER);
+                MySelfInfo.getInstance().setJoinRoomWay(false);
+                L.i("333", "id：" + MySelfInfo.getInstance().getId());
+                L.i("333", "roomNum：" + MySelfInfo.getInstance().getMyRoomNum());
+                CurLiveInfo.setTitle("直播间");
+                CurLiveInfo.setHostID(MySelfInfo.getInstance().getId());
+                CurLiveInfo.setRoomNum(MySelfInfo.getInstance().getMyRoomNum());
+                startActivity(intent);
+//                startActivity(new Intent(getActivity(), DemoGuest.class));
                 break;
             case R.id.update_ll:
                 handleUpdate();
@@ -319,6 +332,10 @@ public class MineFragment extends AutoLazyFragment {
                 } else {
                     AileApplication.faceUrl = data.getPortrait();
                 }
+                MySelfInfo.getInstance().setId(data.getUsername());
+                MySelfInfo.getInstance().setMyRoomNum(52639);
+                MySelfInfo.getInstance().setAvatar(data.getPortrait());
+                MySelfInfo.getInstance().setNickName(data.getNickname());
                 afterLogin();
                 applyGroup();
                 L.i("333", "登录成功：" + obj);
