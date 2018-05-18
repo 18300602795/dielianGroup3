@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -137,20 +138,20 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         SpannableString spanString;
-
-        if (convertView == null) {
-            holder = new ViewHolder();
-            LayoutInflater layoutInflater = LayoutInflater.from(context);
-            convertView = layoutInflater.inflate(R.layout.item_chatmsg, null);
-            holder.textItem = (LinearLayout) convertView.findViewById(R.id.text_item);
-            holder.sendContext = (CustomTextView) convertView.findViewById(R.id.sendcontext);
-            holder.iv_game_img = (RoundedImageView) convertView.findViewById(R.id.iv_game_img);
-            convertView.setTag(R.id.tag_first, holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag(R.id.tag_first);
-        }
-
         ChatEntity item = listMessage.get(position);
+        holder = new ViewHolder();
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        if (item.getType() == Constants.GIFT_TYPE) {
+            convertView = layoutInflater.inflate(R.layout.item_chatmsg_gift, null);
+            holder.sendGift = (ImageView) convertView.findViewById(R.id.sendgift);
+        } else {
+            convertView = layoutInflater.inflate(R.layout.item_chatmsg, null);
+        }
+        holder.sendContext = (CustomTextView) convertView.findViewById(R.id.sendcontext);
+        holder.textItem = (LinearLayout) convertView.findViewById(R.id.text_item);
+        holder.iv_game_img = (RoundedImageView) convertView.findViewById(R.id.iv_game_img);
+        convertView.setTag(R.id.tag_first, holder);
+
         if (null == item) {
             return convertView;
         }
@@ -174,9 +175,17 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
                     0, name.length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
             holder.sendContext.setTextColor(context.getResources().getColor(R.color.black));
         }
-        holder.sendContext.setText(spanString);
-        // 设置控件实际宽度以便计算列表项实际高度
-        holder.sendContext.fixViewWidth(mListView.getWidth());
+        if (item.getType() != Constants.GIFT_TYPE) {
+            holder.sendContext.setText(spanString);
+            // 设置控件实际宽度以便计算列表项实际高度
+            holder.sendContext.fixViewWidth(mListView.getWidth());
+        } else {
+            holder.sendContext.setText(name);
+            holder.sendContext.setTextColor(calcNameColor(name));
+            // 设置控件实际宽度以便计算列表项实际高度
+            holder.sendContext.fixViewWidth(mListView.getWidth());
+            holder.sendGift.setImageResource(Integer.valueOf(item.getContext()));
+        }
         return convertView;
     }
 
@@ -185,6 +194,7 @@ public class ChatMsgListAdapter extends BaseAdapter implements AbsListView.OnScr
         public LinearLayout textItem;
         public CustomTextView sendContext;
         public RoundedImageView iv_game_img;
+        public ImageView sendGift;
 
     }
 

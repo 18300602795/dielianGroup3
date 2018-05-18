@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.etsdk.app.huov7.R;
 import com.etsdk.app.huov7.base.AileApplication;
 import com.etsdk.app.huov7.iLive.model.MySelfInfo;
+import com.etsdk.app.huov7.iLive.utils.Constants;
 import com.etsdk.app.huov7.iLive.views.LiveActivity;
 import com.game.sdk.log.L;
 import com.tencent.TIMElem;
@@ -168,7 +169,7 @@ public class InputTextMsgDialog extends Dialog {
                     TIMTextElem textElem = (TIMTextElem) elem;
                     if (data.isSelf()) {
                         if (mVideoPlayActivity != null)
-                            mVideoPlayActivity.refreshText(textElem.getText(), MySelfInfo.getInstance().getNickName(), AileApplication.faceUrl);
+                            mVideoPlayActivity.refreshText(textElem.getText(), MySelfInfo.getInstance().getNickName(), AileApplication.faceUrl, Constants.TEXT_TYPE);
 //                        handleTextMessage(elem, MySelfInfo.getInstance().getNickName());
                     } else {
                         TIMUserProfile sendUser = data.getSenderProfile();
@@ -179,7 +180,7 @@ public class InputTextMsgDialog extends Dialog {
                             name = data.getSender();
                         }
                         if (mVideoPlayActivity != null)
-                            mVideoPlayActivity.refreshText(textElem.getText(), name, sendUser.getFaceUrl());
+                            mVideoPlayActivity.refreshText(textElem.getText(), name, sendUser.getFaceUrl(), Constants.TEXT_TYPE);
                     }
                 }
                 L.d(TAG, "sendGroupMessage->success");

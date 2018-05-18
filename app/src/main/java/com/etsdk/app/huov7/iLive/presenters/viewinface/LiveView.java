@@ -21,7 +21,7 @@ public interface LiveView extends MvpView {
 
     void showInviteDialog();
 
-    void refreshText(String text, String name, String faceUrl);
+    void refreshText(String text, String name, String faceUrl, int type);
 
     void refreshThumbUp();
 

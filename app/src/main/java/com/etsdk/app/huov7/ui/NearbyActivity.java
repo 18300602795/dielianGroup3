@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daprlabs.aaron.swipedeck.SwipeDeck;
 import com.etsdk.app.huov7.R;
@@ -40,6 +41,7 @@ public class NearbyActivity extends ImmerseActivity {
     ImageView col_iv;
     private NearbyAdapter adapter;
     private List<String> names;
+    private boolean isReturn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,31 @@ public class NearbyActivity extends ImmerseActivity {
         nearby.setRightImage(R.id.iv_love);
         nearby.setDelView(del_iv);
         nearby.setLoveView(love_iv);
+
+        nearby.setCallback(new SwipeDeck.SwipeDeckCallback() {
+            @Override
+            public void cardSwipedLeft(long stableId) {
+                get_iv.setImageResource(R.drawable.ic_undo_dislike_enable);
+                isReturn = true;
+            }
+
+            @Override
+            public void cardSwipedRight(long stableId) {
+                get_iv.setImageResource(R.drawable.ic_undo_dislike_disable);
+                isReturn = false;
+            }
+
+            @Override
+            public void returnSwipedLeft(long itemId) {
+                get_iv.setImageResource(R.drawable.ic_undo_dislike_disable);
+                isReturn = false;
+            }
+
+            @Override
+            public boolean isDragEnabled(long itemId) {
+                return true;
+            }
+        });
     }
 
     private void addNames() {
@@ -78,7 +105,12 @@ public class NearbyActivity extends ImmerseActivity {
                 NearSetActivity.start(mContext);
                 break;
             case R.id.get_iv:
-                nearby.unSwipeCard(300);
+                if (isReturn) {
+                    nearby.unSwipeCard(300);
+                } else {
+                    Toast.makeText(mContext, "只能回退上一个点“X”的人", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             case R.id.del_iv:
                 nearby.swipeTopCardLeft(300);

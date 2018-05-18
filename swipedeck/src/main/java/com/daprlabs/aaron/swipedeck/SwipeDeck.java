@@ -123,6 +123,7 @@ public class SwipeDeck extends FrameLayout {
         setClipChildren(false);
         this.setWillNotDraw(false);
 
+
         //if render above is set make sure everything in this view renders above other views
         //outside of it.
         if (RENDER_ABOVE) {
@@ -388,6 +389,9 @@ public class SwipeDeck extends FrameLayout {
 
     public void unSwipeCard(int duration) {
         addLastView(duration);
+        if (callback != null) {
+            callback.returnSwipedLeft(deck.get(0).getId());
+        }
     }
 
     public void setAdapterIndex(int index) {
@@ -438,6 +442,8 @@ public class SwipeDeck extends FrameLayout {
         void cardSwipedLeft(long itemId);
 
         void cardSwipedRight(long itemId);
+
+        void returnSwipedLeft(long itemId);
 
         /**
          * Check whether we can start dragging view with provided id.

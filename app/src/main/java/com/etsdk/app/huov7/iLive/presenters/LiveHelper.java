@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.etsdk.app.huov7.base.AileApplication;
 import com.etsdk.app.huov7.iLive.model.CurLiveInfo;
 import com.etsdk.app.huov7.iLive.model.MemberID;
 import com.etsdk.app.huov7.iLive.model.MySelfInfo;
@@ -50,6 +51,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+
+import static com.etsdk.app.huov7.base.AileApplication.faceUrl;
 
 
 /**
@@ -268,6 +271,8 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
 
     public int sendC2CCmd(final int cmd, String param, String destId) {
         ILVCustomCmd customCmd = new ILVCustomCmd();
+
+
         customCmd.setDestId(destId);
         customCmd.setCmd(cmd);
         customCmd.setParam(param);
@@ -429,12 +434,12 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
             faceUrl = info.profile.getFaceUrl();
         }
         if (null != mLiveView)
-            mLiveView.refreshText(text.getText(), name, faceUrl);
+            mLiveView.refreshText(text.getText(), name, faceUrl, Constants.TEXT_TYPE);
     }
 
     // 解析自定义信令
     private void processCmdMsg(MessageEvent.SxbMsgInfo info) {
-        L.i("333", "解析自定义信令");
+        L.i("333", "解析自定义信令：" + info.data);
 
         if (null == info.data || !(info.data instanceof ILVCustomCmd)) {
             L.w(TAG, "processCmdMsg->wrong object:" + info.data);
@@ -604,11 +609,11 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
         ILiveRoomManager.getInstance().enableMic(bMicOn);
     }
 
-    public void upToVideo(){
+    public void upToVideo() {
 
     }
 
-    public void downToVideo(){
+    public void downToVideo() {
 
     }
 
@@ -667,6 +672,7 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
                             mLiveView.quiteRoomComplete(MySelfInfo.getInstance().getIdStatus(), true, null);
                         }
                     }
+
                     @Override
                     public void onError(String module, int errCode, String errMsg) {
                         if (null != mLiveView) {
@@ -751,6 +757,9 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
         return ILVLiveManager.getInstance().sendCustomCmd(cmd, new ILiveCallBack() {
             @Override
             public void onSuccess(Object data) {
+                if (cmd.getCmd() == Constants.GIFT_TYPE) {
+                    mLiveView.refreshText(cmd.getParam(), MySelfInfo.getInstance().getNickName(), AileApplication.faceUrl, Constants.GIFT_TYPE);
+                }
                 L.i(TAG, "sendCmd->success:" + cmd.getCmd() + "|" + cmd.getParam());
             }
 
@@ -765,8 +774,10 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
     private void handleCustomMsg(int action, String param, String identifier, MessageEvent.SxbMsgInfo info) {
         L.d(TAG, "handleCustomMsg->action: " + action);
         String name = info.senderId;
+        String faceUrl = "";
         if (null != info.profile && !TextUtils.isEmpty(info.profile.getNickName())) {
             name = info.profile.getNickName();
+            faceUrl = info.profile.getFaceUrl();
         }
         if (null == mLiveView) {
             return;
@@ -828,7 +839,10 @@ public class LiveHelper extends Presenter implements ILiveRoomOption.onRoomDisco
                 break;
             case Constants.AVIMCMD_HOST_BACK:
                 mLiveView.hostBack(identifier, name);
-
+                break;
+            case Constants.GIFT_TYPE:
+                mLiveView.refreshText(param, name, faceUrl, Constants.GIFT_TYPE);
+                break;
             default:
                 break;
         }

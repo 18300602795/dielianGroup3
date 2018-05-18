@@ -70,7 +70,7 @@ public class Constants {
     public static final int MEMBER_EXIT = 2;
     public static final int HOST_LEAVE = 3;
     public static final int HOST_BACK = 4;
-
+    public static final int GIFT_TYPE = 101;
     public static final int VOD_MODE = 0;       // 默认是直播码模式(0:直播码 1:频道)
 
     public static final int ERR_TOKEN_EXPIRED = 10009;
@@ -92,7 +92,8 @@ public class Constants {
     public static final int AVIMCMD_MULTI_HOST_CANCELINVITE = AVIMCMD_MULTI_HOST_DISABLEINTERACTCAMERA + 1; //主播让某个互动者下麦
     public static final int AVIMCMD_MULTI_HOST_CONTROLL_CAMERA = AVIMCMD_MULTI_HOST_CANCELINVITE + 1; //主播控制某个上麦成员摄像头
     public static final int AVIMCMD_MULTI_HOST_CONTROLL_MIC = AVIMCMD_MULTI_HOST_CONTROLL_CAMERA + 1; //主播控制某个上麦成员MIC
-    public static final int AVIMCMD_MULTI_HOST_SWITCH_CAMERA = AVIMCMD_MULTI_HOST_CONTROLL_MIC+1; ////主播切换某个上麦成员MIC
+    public static final int AVIMCMD_MULTI_HOST_SWITCH_CAMERA = AVIMCMD_MULTI_HOST_CONTROLL_MIC + 1; ////主播切换某个上麦成员MIC
+    public static final int SEND_GIFT = AVIMCMD_MULTI_HOST_SWITCH_CAMERA + 1; ////发送礼物
 
     public static final int AVIMCMD_TEXT = -1;         // 普通的聊天消息
 

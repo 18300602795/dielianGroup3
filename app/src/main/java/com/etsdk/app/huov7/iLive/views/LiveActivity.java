@@ -76,6 +76,7 @@ import com.etsdk.app.huov7.iLive.views.customviews.RadioGroupDialog;
 import com.etsdk.app.huov7.iLive.views.customviews.SpeedTestDialog;
 import com.etsdk.app.huov7.util.ImgUtil;
 import com.etsdk.app.huov7.util.StringUtils;
+import com.etsdk.app.huov7.view.GiftView;
 import com.etsdk.app.huov7.view.IlivePhotoView;
 import com.game.sdk.log.L;
 import com.liang530.views.imageview.roundedimageview.RoundedImageView;
@@ -586,7 +587,6 @@ public class LiveActivity extends BaseActivity implements LiveView, View.OnClick
         super.onPause();
         ILiveRoomManager.getInstance().onPause();
     }
-
 
     /**
      * 直播心跳
@@ -1120,9 +1120,9 @@ public class LiveActivity extends BaseActivity implements LiveView, View.OnClick
 
 
     @Override
-    public void refreshText(String text, String name, String faceUrl) {
+    public void refreshText(String text, String name, String faceUrl, int type) {
         if (text != null) {
-            refreshTextListView(name, text, faceUrl, Constants.TEXT_TYPE);
+            refreshTextListView(name, text, faceUrl, type);
         }
     }
 
@@ -1553,8 +1553,15 @@ public class LiveActivity extends BaseActivity implements LiveView, View.OnClick
         if (popupWindow != null && popupWindow.isShowing()) {
             return;
         }
-        LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.window_gift, null);
-        popupWindow = new PopupWindow(layout,
+        GiftView giftView = new GiftView(LiveActivity.this);
+        giftView.setListener(new GiftView.GridListener() {
+            @Override
+            public void onclick(int res) {
+                L.i("333", "发礼物：" + res);
+                mLiveHelper.sendGroupCmd(Constants.GIFT_TYPE, "" + res);
+            }
+        });
+        popupWindow = new PopupWindow(giftView,
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         //点击空白处时，隐藏掉pop窗口
@@ -1575,7 +1582,6 @@ public class LiveActivity extends BaseActivity implements LiveView, View.OnClick
             int endPos = src.indexOf(",", pos);
             return title + ": " + src.substring(pos, endPos) + "\n";
         }
-
         return "";
     }
 
